@@ -12,32 +12,37 @@ const Recommended: React.FC<RecommendedProps> = ({
   return (
     <>
       <div>
-        <h2 className="recommended-title">Recommended</h2>
+        <h2 className="recommended-title">Recommandé</h2>
         <div className="recommended-flex">
           <Button
             onClickHandler={handleRecommendedClick}
             value=""
-            title="All Products"
+            title="Tous les menus"
           />
           <Button
             onClickHandler={handleRecommendedClick}
-            value="Nike"
-            title="Nike"
+            value="végétarien"
+            title="Végétarien"
           />
           <Button
             onClickHandler={handleRecommendedClick}
-            value="Adidas"
-            title="Adidas"
+            value="non-végétarien"
+            title="Non végétarien"
           />
           <Button
             onClickHandler={handleRecommendedClick}
-            value="Puma"
-            title="Puma"
+            value="petit-déjeuner"
+            title="Petit-déjeuner"
           />
           <Button
             onClickHandler={handleRecommendedClick}
-            value="Vans"
-            title="Vans"
+            value="déjeuner"
+            title="Déjeuner"
+          />
+          <Button
+            onClickHandler={handleRecommendedClick}
+            value="dîner"
+            title="Dîner"
           />
         </div>
       </div>

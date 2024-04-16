@@ -9,7 +9,7 @@ interface CategoryProps {
 const Category: React.FC<CategoryProps> = ({ handleRadioChange }) => {
   return (
     <div>
-      <h2 className="sidebar-title">Category</h2>
+      <h2 className="sidebar-title">Catégorie</h2>
 
       <div>
         <label className="sidebar-label-container">
@@ -17,33 +17,45 @@ const Category: React.FC<CategoryProps> = ({ handleRadioChange }) => {
             onChange={handleRadioChange}
             type="radio"
             value=""
-            name="test"
+            name="pays"
           />
-          <span className="checkmark"></span>All
+          <span className="checkmark"></span>Toute
         </label>
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value="sneakers"
-          title="Sneakers"
-          name="test"
+          value="française"
+          title="Française"
+          name="pays"
         />
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value="flats"
-          title="Flats"
-          name="test"
+          value="indienne"
+          title="Indienne"
+          name="pays"
         />
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value="sandals"
-          title="Sandals"
-          name="test"
+          value="japonaise"
+          title="Japonaise"
+          name="pays"
         />
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value="heels"
-          title="Heels"
-          name="test"
+          value="italienne"
+          title="Italienne"
+          name="pays"
+        />
+        <CustomRadioButton
+          handleRadioChange={handleRadioChange}
+          value="tibétaine"
+          title="Tibétaine"
+          name="pays"
+        />
+        <CustomRadioButton
+          handleRadioChange={handleRadioChange}
+          value="vietnamienne"
+          title="Vietnamienne"
+          name="pays"
         />
       </div>
     </div>

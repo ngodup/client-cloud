@@ -1,38 +1,41 @@
 import React from "react";
-import { BsFillBagFill } from "react-icons/bs";
+import { BsFillBagPlusFill } from "react-icons/bs";
+import { BsFillBagXFill } from "react-icons/bs";
 
 interface ProductCardProps {
-  img: string;
-  title: string;
+  imageName: string;
+  name: string;
   star: string;
   reviews: string;
-  prevPrice: number;
-  newPrice: number;
+  price: number;
+  active: boolean;
 }
 const ProductCard: React.FC<ProductCardProps> = ({
-  img,
-  title,
+  imageName,
+  name,
   star,
   reviews,
-  prevPrice,
-  newPrice,
+  price,
+  active,
 }) => {
   return (
     <>
       <section className="card">
-        <img src={img} alt={title} className="card-img" />
+        <img src={imageName} alt={name} className="card-img" />
         <div className="card-details">
-          <h3 className="card-title">{title}</h3>
+          <h3 className="card-title">{name}</h3>
           <section className="card-reviews">
             {star} {star} {star} {star}
             <span className="total-reviews">{reviews}</span>
           </section>
           <section className="card-price">
-            <div className="price">
-              <del>{prevPrice}</del> {newPrice}
-            </div>
+            <div className="price">€{price}</div>
             <div className="bag">
-              <BsFillBagFill className="bag-icon" />
+              {active ? (
+                <BsFillBagPlusFill className="bag-icon" />
+              ) : (
+                <BsFillBagXFill className="bag-icon" color="red" />
+              )}
             </div>
           </section>
         </div>

@@ -4,12 +4,12 @@ import "./Products.css";
 
 interface Product {
   id: string;
-  img: string;
-  title: string;
+  imageName: string;
+  name: string;
   star: string;
   reviews: string;
-  prevPrice: number;
-  newPrice: number;
+  price: number;
+  active: boolean;
 }
 
 interface ProductsProps {
@@ -24,15 +24,15 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   return (
     <section className="card-container">
       {filteredProducts.map(
-        ({ id, img, title, star, reviews, prevPrice, newPrice }) => (
+        ({ id, imageName, name, star, reviews, price, active }) => (
           <ProductCard
             key={id}
-            img={img}
-            title={title}
+            imageName={imageName}
+            name={name}
             star={star}
             reviews={reviews}
-            prevPrice={prevPrice}
-            newPrice={newPrice}
+            price={price}
+            active={active}
           />
         )
       )}
