@@ -9,7 +9,7 @@ export const getFilteredProducts = (state: RootState) => {
   );
 
   if (selectedCategory) {
-    const propertiesToCheck = ["category", "color", "company", "price", "name"];
+    const propertiesToCheck = ["category", "repas", "company", "price", "name"];
     const selectedCategoryLowerCase = selectedCategory.toLowerCase();
 
     filteredProducts = filteredProducts.filter((product) =>

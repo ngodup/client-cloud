@@ -9,7 +9,7 @@ interface PrixPros {
 const Prix: React.FC<PrixPros> = ({ handleRadioChange }) => {
   return (
     <>
-      <div className="ml">
+      <div>
         <h2 className="sidebar-title price-title">Prix</h2>
 
         <label className="sidebar-label-container">

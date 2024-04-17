@@ -1,4 +1,3 @@
-import Header from "../../components/Header/Header";
 import Products from "../../components/Products/Products";
 import Recommended from "../../components/Recommended/Recommended";
 import Sidebar from "../../components/Sidebar/Sidebar";
