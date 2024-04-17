@@ -1,14 +1,14 @@
 import React from "react";
 import { FiHeart } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineUserAdd } from "react-icons/ai";
-import "./Navigation.css";
+import "./Header.css";
 
-interface NavPros {
+interface HeaderPros {
   handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   query: string;
 }
 
-const Nav: React.FC<NavPros> = ({ handleSearchInputChange, query }) => {
+const Header: React.FC<HeaderPros> = ({ handleSearchInputChange, query }) => {
   return (
     <nav>
       <div className="nav-container">
@@ -17,7 +17,7 @@ const Nav: React.FC<NavPros> = ({ handleSearchInputChange, query }) => {
           type="text"
           onChange={handleSearchInputChange}
           value={query}
-          placeholder="Enter your search shoes."
+          placeholder="Rechercher des menus alimentaires."
         />
       </div>
       <div className="profile-container">
@@ -35,4 +35,4 @@ const Nav: React.FC<NavPros> = ({ handleSearchInputChange, query }) => {
   );
 };
 
-export default Nav;
+export default Header;
