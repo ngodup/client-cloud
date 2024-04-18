@@ -16,9 +16,9 @@ function App() {
   const query = useAppSelector(getQuery); // Get the current query from the Redux store
 
   //Initial products fetch
-  React.useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+  // React.useEffect(() => {
+  //   dispatch(fetchProducts());
+  // }, [dispatch]);
 
   const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>

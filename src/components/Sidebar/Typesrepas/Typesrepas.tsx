@@ -1,22 +1,22 @@
 import React from "react";
-import "./Repas.css";
+import "./Typesrepas.css";
 import CustomRadioButton from "../../shared/CustomRadioButton";
 
-interface RepasProps {
+interface TypesrepasProps {
   handleRadioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Repas: React.FC<RepasProps> = ({ handleRadioChange }) => {
+const Typesrepas: React.FC<TypesrepasProps> = ({ handleRadioChange }) => {
   return (
     <>
       <div>
-        <h2 className="sidebar-title repas-title">Repas</h2>
+        <h2 className="sidebar-title repas-title">Type de repas</h2>
         <label className="sidebar-label-container">
           <input
             onChange={handleRadioChange}
             type="radio"
             value=""
-            name="repas"
+            name="repasType"
           />
           <span className="checkmark"></span>
           Tous les menus
@@ -26,38 +26,18 @@ const Repas: React.FC<RepasProps> = ({ handleRadioChange }) => {
           handleRadioChange={handleRadioChange}
           value="végétarien"
           title="Végétarien"
-          name="repas"
+          name="repasType"
         />
 
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
           value="non-végétarien"
           title="Non végétarien"
-          name="repas"
-        />
-
-        <CustomRadioButton
-          handleRadioChange={handleRadioChange}
-          value="petit-déjeuner"
-          title="Petit - déjeuner"
-          name="repas"
-        />
-
-        <CustomRadioButton
-          handleRadioChange={handleRadioChange}
-          value="déjeuner"
-          title="Déjeuner"
-          name="repas"
-        />
-        <CustomRadioButton
-          handleRadioChange={handleRadioChange}
-          value="dîner"
-          title="Dîner"
-          name="repas"
+          name="repasType"
         />
       </div>
     </>
   );
 };
 
-export default Repas;
+export default Typesrepas;

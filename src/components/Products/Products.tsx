@@ -27,7 +27,8 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
         ({ id, imageName, name, star, reviews, price, active }) => (
           <ProductCard
             key={id}
-            imageName={`http://127.0.0.1:8000/images/products/${imageName}`}
+            // imageName={`http://127.0.0.1:8000/images/products/${imageName}`}
+            imageName={imageName}
             name={name}
             star={star}
             reviews={reviews}

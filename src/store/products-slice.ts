@@ -2,7 +2,8 @@
 
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-//import products from "../db/data"; // dummy data
+// import { Product } from "../interfaces/product";
+import dummyData from "../db/data"; // dummy data
 
 interface ProductsState {
   query: string;
@@ -15,7 +16,8 @@ interface ProductsState {
 const initialState: ProductsState = {
   query: "",
   selectedCategory: null,
-  products: [],
+  // products: [],
+  products: dummyData,
   status: "idle",
   error: null,
 };

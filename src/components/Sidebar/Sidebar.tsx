@@ -1,7 +1,7 @@
 import React from "react";
 import Category from "./Category/Category";
 import Prix from "./Prix/Prix";
-import Repas from "./Repas/Repas";
+import Typesrepas from "./Typesrepas/Typesrepas";
 import "./Sidebar.css";
 
 interface SidebarProps {
@@ -17,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ handleRadioChange }) => {
         </div> */}
         <Category handleRadioChange={handleRadioChange} />
         <Prix handleRadioChange={handleRadioChange} />
-        <Repas handleRadioChange={handleRadioChange} />
+        <Typesrepas handleRadioChange={handleRadioChange} />
       </section>
     </>
   );
