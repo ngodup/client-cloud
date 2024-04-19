@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { fetchProducts } from "./store/products-slice";
 import { useAppDispatch, useAppSelector } from "./store";
 import { setQuery } from "./store/products-slice";
-import { getQuery } from "./store/selectors";
+import { getQuerySelector } from "./store/selectors";
 
 import Header from "./components/Header/Header";
 import Home from "./pages/home/Home";
@@ -13,12 +13,12 @@ import Gallery from "./pages/gallery/Gallery";
 
 function App() {
   const dispatch = useAppDispatch();
-  const query = useAppSelector(getQuery); // Get the current query from the Redux store
+  const query = useAppSelector(getQuerySelector); // Get the current query from the Redux store
 
   //Initial products fetch
-  // React.useEffect(() => {
-  //   dispatch(fetchProducts());
-  // }, [dispatch]);
+  React.useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>

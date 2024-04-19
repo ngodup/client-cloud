@@ -8,12 +8,13 @@ export type ProductProperties =
 export interface Product {
   id?: number;
   name: string;
-  price: number;
   imageName: string;
+  price: number;
   repas: string;
   category: string;
   repasType: string;
   reviews?: string;
   active?: boolean;
-  rating?: string;
+  rating?: number;
+  description?: string;
 }

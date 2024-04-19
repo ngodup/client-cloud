@@ -16,8 +16,8 @@ interface ProductsState {
 const initialState: ProductsState = {
   query: "",
   selectedCategory: null,
-  // products: [],
-  products: dummyData,
+  products: [],
+  //products: dummyData,
   status: "idle",
   error: null,
 };

@@ -27,9 +27,9 @@
     display: flex;
   }
   
-  .rating-star {
+  /* .rating-star {
     color: #d5ab55;
-  }
+  } */
   
   .total-reviews {
     font-size: 0.9rem;
@@ -45,3 +45,12 @@
   .bag-icon {
     color: #535353;
   }
+
+  /* Add these styles to your CSS file */
+.rating-star {
+  color: #ffc107; /* Gold color for filled stars */
+}
+
+.rating-star-empty {
+  color: #ccc; /* Gray color for empty stars */
+}

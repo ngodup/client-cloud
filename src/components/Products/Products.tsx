@@ -1,42 +1,31 @@
 import React from "react";
 import ProductCard from "../shared/ProductCard";
+import { Product } from "../../interfaces/product";
+import { ShoppingCart } from "../../hooks/useShoppingCart";
 import "./Products.css";
-
-interface Product {
-  id: string;
-  imageName: string;
-  name: string;
-  star: string;
-  reviews: string;
-  price: number;
-  active: boolean;
-}
 
 interface ProductsProps {
   filteredProducts: Product[];
+  addToShoppingCart: (product: Product) => void;
 }
 
-const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
+const Products: React.FC<ProductsProps> = ({
+  filteredProducts,
+  addToShoppingCart,
+}) => {
   if (filteredProducts.length === 0) {
     return null;
   }
 
   return (
     <section className="card-container">
-      {filteredProducts.map(
-        ({ id, imageName, name, star, reviews, price, active }) => (
-          <ProductCard
-            key={id}
-            // imageName={`http://127.0.0.1:8000/images/products/${imageName}`}
-            imageName={imageName}
-            name={name}
-            star={star}
-            reviews={reviews}
-            price={price}
-            active={active}
-          />
-        )
-      )}
+      {filteredProducts.map((product: Product, index: number) => (
+        <ProductCard
+          key={index}
+          product={product}
+          addToShoppingCart={addToShoppingCart}
+        />
+      ))}
     </section>
   );
 };

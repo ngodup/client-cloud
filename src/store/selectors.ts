@@ -1,35 +1,44 @@
 // features/products/selectors.ts
+import { createSelector } from "reselect";
 import { RootState } from "./index";
 import { Product, ProductProperties } from "../interfaces/product";
 
-export const getFilteredProducts = (state: RootState) => {
-  const { products, query, selectedCategory } = state.products;
+const getProducts = (state: RootState) => state.products.products;
+const getQuery = (state: RootState) => state.products.query;
+const getSelectedCategory = (state: RootState) =>
+  state.products.selectedCategory;
 
-  let filteredProducts = products.filter((product: Product) =>
-    product.name.toLowerCase().includes(query.toLowerCase())
-  );
-
-  if (selectedCategory) {
-    const propertiesToCheck: ProductProperties[] = [
-      "category",
-      "repas",
-      "repasType",
-      "price",
-      "name",
-    ];
-    const selectedCategoryLowerCase = selectedCategory.toLowerCase();
-
-    filteredProducts = filteredProducts.filter((product: Product) =>
-      propertiesToCheck.some((property) =>
-        product[property]
-          .toString()
-          .toLowerCase()
-          .includes(selectedCategoryLowerCase)
-      )
+export const getFilteredProducts = createSelector(
+  [getProducts, getQuery, getSelectedCategory],
+  (products, query, selectedCategory) => {
+    let filteredProducts = products.filter((product: Product) =>
+      product.name.toLowerCase().includes(query.toLowerCase())
     );
+
+    if (selectedCategory) {
+      const propertiesToCheck: ProductProperties[] = [
+        "price",
+        "name",
+        "category",
+        "repas",
+        "repasType",
+      ];
+      const selectedCategoryLowerCase = selectedCategory.toLowerCase();
+
+      filteredProducts = filteredProducts.filter((product: Product) =>
+        propertiesToCheck.some(
+          (property) =>
+            product[property] !== undefined &&
+            product[property]
+              .toString()
+              .toLowerCase()
+              .includes(selectedCategoryLowerCase)
+        )
+      );
+    }
+
+    return filteredProducts;
   }
+);
 
-  return filteredProducts;
-};
-
-export const getQuery = (state: RootState) => state.products.query;
+export const getQuerySelector = (state: RootState) => state.products.query;
