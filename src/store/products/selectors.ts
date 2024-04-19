@@ -1,7 +1,7 @@
 // features/products/selectors.ts
 import { createSelector } from "reselect";
-import { RootState } from "./index";
-import { Product, ProductProperties } from "../interfaces/product";
+import { RootState } from "../index";
+import { Product, ProductProperties } from "../../interfaces/product";
 
 const getProducts = (state: RootState) => state.products.products;
 const getQuery = (state: RootState) => state.products.query;

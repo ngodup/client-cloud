@@ -1,15 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import { fetchProducts } from "./store/products-slice";
-import { useAppDispatch, useAppSelector } from "./store";
-import { setQuery } from "./store/products-slice";
-import { getQuerySelector } from "./store/selectors";
-
 import Header from "./components/Header/Header";
 import Home from "./pages/home/Home";
 import Contact from "./pages/contact/Contact";
 import Gallery from "./pages/gallery/Gallery";
+import ShoppingcartScreen from "./pages/shopingcartScreen/ShoppingcartScreen";
+import { useAppDispatch, useAppSelector } from "./store";
+import { getQuerySelector } from "./store/products/selectors";
+import { fetchProducts, setQuery } from "./store/products/products-slice";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -33,6 +31,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/cart" element={<ShoppingcartScreen />} />
       </Routes>
     </Router>
   );

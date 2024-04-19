@@ -1,15 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
 import { AiOutlineShoppingCart, AiOutlineUserAdd } from "react-icons/ai";
-import useShoppingCart from "../../hooks/useShoppingCart";
+import { useAppSelector } from "../../store";
 import "./Header.css";
 
-interface HeaderPros {
+interface HeaderProps {
   handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   query: string;
 }
 
-const Header: React.FC<HeaderPros> = ({ handleSearchInputChange, query }) => {
+const Header: React.FC<HeaderProps> = ({ handleSearchInputChange, query }) => {
+  const cartItems = useAppSelector((state) => state.carts.items);
+  const cartItemsCount = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
   return (
     <nav>
       <div className="nav-container">
@@ -21,16 +28,31 @@ const Header: React.FC<HeaderPros> = ({ handleSearchInputChange, query }) => {
           placeholder="Rechercher des menus alimentaires."
         />
       </div>
-      <div className="profile-container">
-        <a href="#">
+      <div className="link-container">
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+
+        <Link to="/gallery" className="nav-link">
+          Gallery
+        </Link>
+
+        <Link to="/contact" className="nav-link">
+          Contact
+        </Link>
+
+        {/* <a href="#">
           <FiHeart className="nav-icons" />
-        </a>
-        <a href="">
+        </a> */}
+        <Link to="/cart" className="nav-link cart-link">
+          {cartItemsCount > 0 && (
+            <span className="cart-count">{cartItemsCount}</span>
+          )}
           <AiOutlineShoppingCart className="nav-icons" />
-        </a>
-        <a href="">
+        </Link>
+        {/* <a href="">
           <AiOutlineUserAdd className="nav-icons" />
-        </a>
+        </a> */}
       </div>
     </nav>
   );

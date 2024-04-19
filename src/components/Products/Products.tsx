@@ -1,18 +1,13 @@
 import React from "react";
-import ProductCard from "../shared/ProductCard";
 import { Product } from "../../interfaces/product";
-import { ShoppingCart } from "../../hooks/useShoppingCart";
 import "./Products.css";
+import ProductCard from "./Card/ProductCard";
 
 interface ProductsProps {
   filteredProducts: Product[];
-  addToShoppingCart: (product: Product) => void;
 }
 
-const Products: React.FC<ProductsProps> = ({
-  filteredProducts,
-  addToShoppingCart,
-}) => {
+const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   if (filteredProducts.length === 0) {
     return null;
   }
@@ -20,11 +15,7 @@ const Products: React.FC<ProductsProps> = ({
   return (
     <section className="card-container">
       {filteredProducts.map((product: Product, index: number) => (
-        <ProductCard
-          key={index}
-          product={product}
-          addToShoppingCart={addToShoppingCart}
-        />
+        <ProductCard key={index} product={product} />
       ))}
     </section>
   );

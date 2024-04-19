@@ -1,62 +1,48 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Product } from "../interfaces/product";
 
 export interface ShoppingCart {
   items: ShoppingCartItem[];
 }
 
-// interface Product {
-//   id: number;
-//   name: string;
-//   description: string;
-//   price: number;
-//   imageName: string;
-// }
 export interface ShoppingCartItem {
   product: Product;
   quantity: number;
 }
 
 export default function useShoppingCart() {
-  const [shoppingCart, setShoppingCart] = useState<ShoppingCart | null>();
-  const [loading, setLoading] = useState(false);
+  const [shoppingCart, setShoppingCart] = useState<ShoppingCart>({ items: [] });
 
   const addToShoppingCart = (product: Product) => {
-    setLoading(true);
-    fetch(`http://127.0.0.1:8000/session/shopping-cart/${product.id}`, {
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((json) => setShoppingCart(json))
-      .finally(() => {
-        setLoading(false);
+    const existingItemIndex = shoppingCart.items.findIndex(
+      (item) => item.product.id === product.id
+    );
+
+    if (existingItemIndex !== -1) {
+      setShoppingCart((prevState) => {
+        const updatedItems = [...prevState.items];
+        updatedItems[existingItemIndex].quantity += 1;
+        return { items: updatedItems };
       });
+    } else {
+      setShoppingCart((prevState) => ({
+        items: [...prevState.items, { product, quantity: 1 }],
+      }));
+    }
   };
 
   const removeFromShoppingCart = (product: Product) => {
-    fetch(`http://127.0.0.1:8000/session/shopping-cart/${product.id}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then((json) => setShoppingCart(json));
+    setShoppingCart((prevState) => {
+      const updatedItems = prevState.items.filter(
+        (item) => item.product.id !== product.id
+      );
+      return { items: updatedItems };
+    });
   };
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("http://127.0.0.1:8000/session/shopping-cart")
-      .then((response) => response.json())
-      .then((json) => {
-        setShoppingCart(json);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
 
   return {
     shoppingCart,
     addToShoppingCart,
     removeFromShoppingCart,
-    loading,
   };
 }

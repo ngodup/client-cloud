@@ -3,16 +3,12 @@ import Recommended from "../../components/Recommended/Recommended";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 import { useAppDispatch, useAppSelector } from "../../store";
-import { setSelectedCategory } from "../../store/products-slice";
-import { getFilteredProducts } from "../../store/selectors";
-
-import useShoppingCart from "../../hooks/useShoppingCart";
+import { getFilteredProducts } from "../../store/products/selectors";
+import { setSelectedCategory } from "../../store/products/products-slice";
 
 function Home() {
   const dispatch = useAppDispatch();
   const filteredProducts = useAppSelector(getFilteredProducts);
-
-  const { addToShoppingCart } = useShoppingCart();
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSelectedCategory(event.target.value));
@@ -26,10 +22,7 @@ function Home() {
     <>
       <Sidebar handleRadioChange={handleRadioChange} />
       <Recommended handleRecommendedClick={handleRecommendedClick} />
-      <Products
-        filteredProducts={filteredProducts}
-        addToShoppingCart={addToShoppingCart}
-      />
+      <Products filteredProducts={filteredProducts} />
     </>
   );
 }
