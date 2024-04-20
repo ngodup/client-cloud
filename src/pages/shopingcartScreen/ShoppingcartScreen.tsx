@@ -1,24 +1,40 @@
 import React from "react";
-
 import { Product } from "../../interfaces/product";
-import { useAppSelector } from "../../store";
-// import { formatPrice } from "../../utils/formatPrice";
-// import { proceedToCheckout } from "../../utils/proceedToCheckout";
-import "./ShoppingcartScreen.css";
-import { formatPrice } from "../../utils/date";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { formatPrice, visit } from "../../utils/date";
 import { removeFromCart } from "../../store/shippingCart/shoppingCartSlice";
+import { Navigate } from "react-router-dom";
+import axios from "axios";
+import "./ShoppingcartScreen.css";
+
 interface ShoppingcartScreenProps {}
 
 const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
+  const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.carts.items);
+
+  const cart = {
+    items: cartItems.map((item) => ({
+      productId: item.product.id,
+      quantity: item.quantity,
+    })),
+  };
+
+  const handleCheckout = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/stripe/checkout-sessions",
+        cart
+      );
+      visit(response.data.url);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleRemoveFromCart = (product: Product) => {
     dispatch(removeFromCart(product));
   };
-
-  // function proceedToCheckout(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
-  //   throw new Error("Function not implemented.");
-  // }
 
   return (
     <div className="container">
@@ -34,9 +50,9 @@ const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
               <h5>Votre panier</h5>
             </div>
             <div>
-              {/* <button className="checkout-button" onClick={proceedToCheckout}>
+              <button className="checkout-button" onClick={handleCheckout}>
                 Procéder au paiement
-              </button> */}
+              </button>
             </div>
           </div>
           <div className="table-container">
@@ -84,6 +100,3 @@ const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
 };
 
 export default ShoppingcartScreen;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}
