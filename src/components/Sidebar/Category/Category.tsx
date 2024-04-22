@@ -23,8 +23,8 @@ const Category: React.FC<CategoryProps> = ({ handleRadioChange }) => {
         </label>
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value="française"
-          title="Française"
+          value="français"
+          title="Français"
           name="pays"
         />
         <CustomRadioButton

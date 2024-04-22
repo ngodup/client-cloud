@@ -17,7 +17,7 @@ const initialState: ProductsState = {
   query: "",
   selectedCategory: null,
   products: [],
-  //products: dummyData,
+  // products: dummyData,
   status: "idle",
   error: null,
 };

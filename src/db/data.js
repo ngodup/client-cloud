@@ -10,7 +10,7 @@ const data = [
     price: "12,00",
     repas: "végétarien",
     repasType: "déjeuner",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -47,7 +47,7 @@ const data = [
     price: "4,00",
     repas: "non-végétarien",
     repasType: "déjeuner",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -97,7 +97,7 @@ const data = [
     price: "5,50",
     repas: "végétarien",
     repasType: "petit-déjeuner",
-    category: "française",
+    category: "français",
     active: true,
   },
 
@@ -123,7 +123,7 @@ const data = [
     price: "10,00",
     repas: "non-végétarien",
     repasType: "petit-déjeuner",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -135,7 +135,7 @@ const data = [
     price: "12,00",
     repas: "non-végétarien",
     repasType: "déjeuner",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -159,7 +159,7 @@ const data = [
     price: "15,00",
     repas: "non-végétarien",
     repasType: "dîner",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -171,7 +171,7 @@ const data = [
     price: "17,00",
     repas: "non-végétarien",
     repasType: "dîner",
-    category: "française",
+    category: "français",
     active: true,
   },
 
@@ -184,7 +184,7 @@ const data = [
     price: "21,00",
     repas: "non-végétarien",
     repasType: "dînerr",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -208,7 +208,7 @@ const data = [
     price: "7,00",
     repas: "végétarien",
     repasType: "déjeuner",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -220,7 +220,7 @@ const data = [
     price: "16,00",
     repas: "végétarien",
     repasType: "dîner",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -232,7 +232,7 @@ const data = [
     price: "22,00",
     repas: "déjeuner",
     repasType: "non-végétarien",
-    category: "française",
+    category: "français",
     active: true,
   },
   {
@@ -280,7 +280,7 @@ const data = [
     price: "12,00",
     repas: "végétarien",
     repasType: "déjeuner",
-    category: "française",
+    category: "français",
     active: true,
   },
 

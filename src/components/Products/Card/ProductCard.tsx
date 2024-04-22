@@ -14,7 +14,9 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { imageName, name, reviews, price, rating, active } = product;
+  const { imageName, name, price, active } = product;
+  const reviews = 4;
+  const rating = 3;
 
   const dispatch = useAppDispatch();
 
@@ -50,12 +52,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <>
       <section className="card">
-        <img src={imageName} alt={name} className="card-img" />
+        <img
+          src={`http://127.0.0.1:8000/images/products/${imageName}`}
+          alt={name}
+          className="card-img"
+        />
+
         <div className="card-details">
           <h3 className="card-title">{name}</h3>
           <section className="card-reviews">
             {/* {star} {star} {star} {star} */}
-            <span className="total-reviews">{reviews}</span>
+            <span className="total-reviews">{reviews} Reviews</span>
           </section>
           <section className="card-price">
             <div className="price">€{price}</div>
