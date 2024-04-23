@@ -24,3 +24,13 @@ li {
   color: #323232;
   cursor: pointer;
 }
+
+.error {
+  color: red;
+  font-weight: 600;
+}
+
+.success {
+  color: lightgreen;
+  font-weight: 600;
+}

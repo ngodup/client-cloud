@@ -28,6 +28,10 @@ const SignUpPage = () => {
     codePostal: "",
   });
 
+  const [loginMessage, setLoginMessage] = useState("");
+  const [loginError, setLoginError] = useState(false);
+  const [loginAttempted, setLoginAttempted] = useState(false);
+
   const {
     email,
     password,
@@ -55,14 +59,20 @@ const SignUpPage = () => {
         ville,
         codePostal,
       });
-
+      setLoginAttempted(true);
       if (response.status === 201 || response.status === 200) {
+        setLoginMessage("Registration successful!");
         console.log("Registration successful!");
+        setLoginError(false);
       } else {
         console.error("Registration failed: ", response.data);
+        setLoginMessage(response.data.message);
+        setLoginError(true);
       }
     } catch (error) {
       console.error("Error during registration: ", error);
+      setLoginMessage((error as Error).message);
+      setLoginError(true);
     } finally {
       setState({
         email: "",
@@ -86,6 +96,12 @@ const SignUpPage = () => {
       [event.target.name]: event.target.value,
     });
   };
+
+  const loginMessageElement = loginAttempted && (
+    <div className={`login-message ${loginError ? "error" : "success"}`}>
+      {loginMessage}
+    </div>
+  );
 
   return (
     <div className="wrapper fadeInDown">
@@ -213,6 +229,7 @@ const SignUpPage = () => {
         </form>
 
         <div id="formFooter">
+          <div>{loginMessageElement}</div>
           <Link to="/login" className="underlineHover">
             Connectez-vous, si vous êtes un utilisateur existant
           </Link>
