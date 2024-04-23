@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import "./Auth.css";
 
 // Interface for type safety
@@ -18,22 +20,22 @@ const LoginForm = () => {
   const { email, password } = state; // Destructure state values
 
   // Handle form submission
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission behavior
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post("http://127.0.0.1:8000/api/login", {
+        email,
+        password,
       });
 
-      if (response.ok) {
-        // Handle successful login (e.g., redirect to protected area)
+      if (response.status === 200) {
         console.log("Login successful!");
+        return <Navigate to="/" replace />;
       } else {
         // Handle login error
-        console.error("Login failed: ", await response.text());
+        console.error("Login failed: ", response.data);
         // Display error message to user
       }
     } catch (error) {
@@ -87,8 +89,8 @@ const LoginForm = () => {
         </form>
 
         <div id="formFooter">
-          <Link to="/forgot-password" className="underlineHover">
-            Forgot Password?
+          <Link to="/signup" className="underlineHover">
+            Inscrivez-vous, si vous êtes un utilisateur existant
           </Link>
         </div>
       </div>

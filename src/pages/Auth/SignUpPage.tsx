@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Auth.css";
+import { Link } from "react-router-dom";
 
 interface SignUpFormState {
   email: string;
@@ -42,29 +44,25 @@ const SignUpPage = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password,
-          prenom,
-          nom,
-          dateDeNaissance,
-          phoneNumber,
-          address,
-          ville,
-          codePostal,
-        }),
+      const response = await axios.post("http://127.0.0.1:8000/register", {
+        email,
+        password,
+        prenom,
+        nom,
+        dateDeNaissance,
+        phoneNumber,
+        address,
+        ville,
+        codePostal,
       });
 
-      if (response.ok) {
-        console.log("Login successful!");
+      if (response.status === 201 || response.status === 200) {
+        console.log("Registration successful!");
       } else {
-        console.error("Login failed: ", await response.text());
+        console.error("Registration failed: ", response.data);
       }
     } catch (error) {
-      console.error("Error during login: ", error);
+      console.error("Error during registration: ", error);
     } finally {
       setState({
         email: "",
@@ -213,6 +211,12 @@ const SignUpPage = () => {
 
           <input type="submit" className="fadeIn fourth" value="Sign Up" />
         </form>
+
+        <div id="formFooter">
+          <Link to="/login" className="underlineHover">
+            Connectez-vous, si vous êtes un utilisateur existant
+          </Link>
+        </div>
       </div>
     </div>
   );
