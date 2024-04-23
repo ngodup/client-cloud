@@ -1,53 +1,38 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
+import AuthContext from "../../context/AuthContext";
 
-// Interface for type safety
 interface LoginFormState {
   email: string;
   password: string;
 }
 
-const LoginForm = () => {
-  // Use useState with initial state values
+const LoginPage = () => {
+  const { handleLogin, error, isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [state, setState] = useState<LoginFormState>({
     email: "",
     password: "",
   });
 
-  const { email, password } = state; // Destructure state values
+  const { email, password } = state;
 
-  // Handle form submission
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission behavior
-
+    event.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/login", {
-        email,
-        password,
-      });
-
-      if (response.status === 200) {
-        console.log("Login successful!");
-        return <Navigate to="/" replace />;
-      } else {
-        // Handle login error
-        console.error("Login failed: ", response.data);
-        // Display error message to user
-      }
+      await handleLogin(email, password);
     } catch (error) {
-      console.error("Error during login: ", error);
-      // Display generic error message to user
-    } finally {
-      // Reset form fields after submission (optional)
-      setState({ email: "", password: "" });
+      console.error(error);
     }
   };
 
-  // Handle input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
@@ -63,6 +48,8 @@ const LoginForm = () => {
         <div className="fadeIn first">
           <img src="/avatar.jpg" alt="Avatar" id="icon" />
         </div>
+
+        {error && <p className="error">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <input
@@ -98,4 +85,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;

@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/home/Home";
-import Contact from "./pages/contact/Contact";
-import Gallery from "./pages/gallery/Gallery";
-import LoginPage from "./pages/Auth/LoginPage";
 import ShoppingcartScreen from "./pages/shopingcartScreen/ShoppingcartScreen";
 import { useAppDispatch } from "./store";
 import { fetchProducts } from "./store/products/products-slice";
 import MainLayout from "./components/Navigation/MainLayout/MainLayout";
+import Home from "./pages/home/Home";
+import Contact from "./pages/contact/Contact";
+import Gallery from "./pages/gallery/Gallery";
+import LoginPage from "./pages/Auth/LoginPage";
 import SignUpPage from "./pages/Auth/SignUpPage";
 
 function App() {
