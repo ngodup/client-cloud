@@ -58,10 +58,12 @@ const Header: React.FC<HeaderProps> = () => {
           </Link>
 
           <Link to="/cart" className="nav-link cart-link">
-            {cartItemsCount > 0 && (
-              <span className="cart-count">{cartItemsCount}</span>
-            )}
-            <AiOutlineShoppingCart className="nav-icons" />
+            <div className="icon-badge-container">
+              {cartItemsCount > 0 && (
+                <span className="badge cart-count">{cartItemsCount}</span>
+              )}
+              <AiOutlineShoppingCart className="nav-icons" />
+            </div>
           </Link>
 
           {isAuthenticated ? (
