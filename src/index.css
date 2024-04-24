@@ -14,15 +14,22 @@ li {
   list-style: none;
 }
 
+
+.btn, .btns {
+  background: var(--primary-color);
+  color: var(--light-color);
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
 .btns {
   padding: 10px 20px;
   margin-right: 6px;
-  background: transparent;
-  border: none;
-  border: 0.6px solid #ccc;
-  border-radius: 5px;
-  color: #323232;
-  cursor: pointer;
+}
+
+.btn {
+  padding: 5px 10px;
 }
 
 .error {
@@ -33,4 +40,19 @@ li {
 .success {
   color: lightgreen;
   font-weight: 600;
+}
+
+.badge {
+  color: white;
+  padding: 4px 8px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.veg {
+  background-color: #05aa6d;
+}
+
+.non-veg {
+  background-color: #e10038;
 }

@@ -11,7 +11,7 @@ const ProfilePage = () => {
   }
 
   const { userProfile } = user.user;
-  debugger;
+
   const userData: UserProfile = userProfile ?? {
     prenom: "",
     nom: "",
@@ -20,7 +20,7 @@ const ProfilePage = () => {
     ville: "",
     codePostal: "",
   };
-  debugger;
+
   return (
     <div className="container">
       <div className="profile">
