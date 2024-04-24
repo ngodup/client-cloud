@@ -11,9 +11,13 @@ import {
 
 interface ProductCardProps {
   product: Product;
+  setSelectedProduct: (product: Product) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  setSelectedProduct,
+}) => {
   const { imageName, name, price, active } = product;
   const reviews = 4;
   const rating = 3;
@@ -78,6 +82,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 className="bag-icon"
                 onClick={() => handleRemoveFromCart(product)}
               />
+            </div>
+            <div>
+              <button
+                onClick={() => setSelectedProduct(product)}
+                className="btn"
+              >
+                View
+              </button>
             </div>
           </section>
         </div>

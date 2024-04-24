@@ -48,9 +48,41 @@
 
   /* Add these styles to your CSS file */
 .rating-star {
-  color: #ffc107; /* Gold color for filled stars */
+  color: var(--primary-color); /* Gold color for filled stars */
 }
 
 .rating-star-empty {
   color: #ccc; /* Gray color for empty stars */
+}
+
+/* Custom Modal Children CSS */
+.close-modal-icon {
+  float: right;
+  font-size: 24px;
+  color: var(--primary-color);
+}
+.modal-product {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
+
+.modal-product-details {
+  text-align: left;
+}
+
+.modal-price {
+  margin: 8px 0;
+}
+
+.veg, .non-veg {
+  margin: 10px;
+}
+.badge-bg {
+  background-color: #572300;
+  text-transform: capitalize;
+}
+
+.badge-country{
+  background-color:#222f9f;
 }
