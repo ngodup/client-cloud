@@ -72,7 +72,7 @@ const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
                       <div className="product-info">
                         <img
                           className="product-image"
-                          src={`/images/products/${item.product.imageName}`}
+                          src={`http://127.0.0.1:8000/images/products/${item.product.imageName}`}
                           alt={item.product.name}
                         />
                         <span>{item.product.name}</span>

@@ -3,7 +3,7 @@ import { login, getUserInfo } from "../utils/userAPI";
 import { User } from "../interfaces/user";
 
 export interface AuthContextProps {
-  user: User | undefined;
+  user: any | undefined;
   isAuthenticated: boolean;
   error: string | null;
   handleLogin: (email: string, password: string) => Promise<void>;
@@ -27,7 +27,7 @@ export const defaultContextValue: AuthContextProps = {
 const AuthContext = createContext<AuthContextProps>(defaultContextValue);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<any | undefined>(undefined);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 

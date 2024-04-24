@@ -76,9 +76,14 @@ const LoginPage = () => {
         </form>
 
         <div id="formFooter">
-          <Link to="/signup" className="underlineHover">
-            Inscrivez-vous, si vous êtes un utilisateur existant
-          </Link>
+          <div className="auth-footer-link">
+            <Link to="/signup" className="underlineHover">
+              Inscrivez-vous, si vous êtes un utilisateur existant
+            </Link>
+            <Link to="/" className="underlineHover">
+              Accueil
+            </Link>
+          </div>
         </div>
       </div>
     </div>

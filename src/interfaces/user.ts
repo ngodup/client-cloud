@@ -3,14 +3,14 @@ interface Role {
 }
 
 export interface UserProfile {
-  id: number;
+  id?: number;
   prenom: string;
   nom: string;
   phoneNumber?: string;
   address?: string;
   dateDeNaissance?: Date;
   ville?: string;
-  codePostal?: number;
+  codePostal?: string;
   photoDeProfil?: string;
 }
 
@@ -18,5 +18,5 @@ export interface User {
   id?: number | null;
   email: string;
   roles?: Role[];
-  userInfo?: UserProfile;
+  userProfile?: UserProfile;
 }

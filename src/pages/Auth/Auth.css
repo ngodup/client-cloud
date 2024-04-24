@@ -252,6 +252,7 @@ input[type=text]:placeholder {
 
 #icon {
   width:60%;
+  margin: auto;
 }
 
 * {
@@ -328,4 +329,9 @@ label {
 
 .field-container input[type="submit"]:hover {
   background-color: #0069d9;
+}
+
+.auth-footer-link {
+  display: flex;
+  justify-content: space-between;
 }

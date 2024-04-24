@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineShoppingCart, AiOutlineUserAdd } from "react-icons/ai";
+import {
+  AiOutlineShoppingCart,
+  AiOutlineUser,
+  AiOutlineUserAdd,
+} from "react-icons/ai";
 import "react-responsive-modal/styles.css";
 import { useAppSelector } from "../../../store";
 import "./Header.css";
+import AuthContext from "../../../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { setQuery } from "../../../store/products/products-slice";
+import { getQuerySelector } from "../../../store/products/selectors";
 
-interface HeaderProps {
-  handleSearchInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  query: string;
-}
+interface HeaderProps {}
 
-const Header: React.FC<HeaderProps> = ({ handleSearchInputChange, query }) => {
+const Header: React.FC<HeaderProps> = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const cartItems = useAppSelector((state) => state.carts.items);
+  const query = useAppSelector(getQuerySelector);
+
   const cartItemsCount = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
+
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch(setQuery(event.target.value));
+  };
 
   return (
     <>
@@ -42,21 +57,22 @@ const Header: React.FC<HeaderProps> = ({ handleSearchInputChange, query }) => {
             Contact
           </Link>
 
-          {/* <a href="#">
-          <FiHeart className="nav-icons" />
-        </a> */}
           <Link to="/cart" className="nav-link cart-link">
             {cartItemsCount > 0 && (
               <span className="cart-count">{cartItemsCount}</span>
             )}
             <AiOutlineShoppingCart className="nav-icons" />
           </Link>
-          <Link to="/contact" className="nav-link">
-            Contact
-          </Link>
-          <Link to="/login" className="nav-link">
-            <AiOutlineUserAdd className="nav-icons" />
-          </Link>
+
+          {isAuthenticated ? (
+            <Link to="/profile" className="nav-link">
+              <AiOutlineUser className="nav-icons" />
+            </Link>
+          ) : (
+            <Link to="/login" className="nav-link">
+              <AiOutlineUserAdd className="nav-icons" />
+            </Link>
+          )}
         </div>
       </nav>
     </>
