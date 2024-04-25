@@ -3,7 +3,7 @@ interface Role {
 }
 
 export interface UserProfile {
-  id?: number;
+  id: number;
   prenom: string;
   nom: string;
   phoneNumber?: string;
@@ -15,8 +15,12 @@ export interface UserProfile {
 }
 
 export interface User {
-  id?: number | null;
+  id: number;
   email: string;
   roles?: Role[];
   userProfile?: UserProfile;
+}
+
+export interface UserResponse {
+  user: User;
 }

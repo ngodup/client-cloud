@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import { login, getUserInfo } from "../utils/userAPI";
-import { User } from "../interfaces/user";
+import { UserResponse } from "../interfaces/user";
 
 export interface AuthContextProps {
-  user: User | undefined;
+  userResponse: UserResponse | undefined;
   isAuthenticated: boolean;
   token: string | null;
   error: string | null;
@@ -12,7 +12,7 @@ export interface AuthContextProps {
 }
 
 export const defaultContextValue: AuthContextProps = {
-  user: undefined,
+  userResponse: undefined,
   isAuthenticated: false,
   token: null,
   error: null,
@@ -27,7 +27,9 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextProps>(defaultContextValue);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const [userResponse, setUserResponse] = useState<UserResponse | undefined>(
+    undefined
+  );
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (storedToken) {
       setToken(storedToken);
       getUserInfo(storedToken).then((userData) => {
-        setUser(userData);
+        setUserResponse(userData);
         setIsAuthenticated(true);
       });
     }
@@ -49,7 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       localStorage.setItem("token", token);
       setToken(token);
       const userData = await getUserInfo(token);
-      setUser(userData);
+      setUserResponse(userData);
       setIsAuthenticated(true);
     } catch (error) {
       console.error(error);
@@ -58,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const handleLogout = () => {
-    setUser(undefined);
+    setUserResponse(undefined);
     setIsAuthenticated(false);
     setToken(null);
     localStorage.removeItem("token");
@@ -67,7 +69,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   return (
     <AuthContext.Provider
       value={{
-        user,
+        userResponse,
         token,
         isAuthenticated,
         error,

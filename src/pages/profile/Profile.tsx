@@ -1,26 +1,19 @@
 import React, { useContext } from "react";
-import "./Profile.css";
 import AuthContext, { AuthContextProps } from "../../context/AuthContext";
-import { UserProfile } from "../../interfaces/user";
+import "./Profile.css";
 
 const ProfilePage = () => {
-  const { user } = useContext<AuthContextProps>(AuthContext);
-  debugger;
+  const { userResponse } = useContext<AuthContextProps>(AuthContext);
 
-  if (!user) {
-    return <div>Loading...</div>;
+  if (!userResponse) {
+    return <div>No user profile found</div>;
   }
 
-  const { userProfile } = user;
+  const { userProfile } = userResponse.user;
 
-  const userData: UserProfile = userProfile ?? {
-    prenom: "",
-    nom: "",
-    phoneNumber: "",
-    address: "",
-    ville: "",
-    codePostal: "",
-  };
+  if (!userProfile) {
+    return <div>No user profile found</div>;
+  }
 
   return (
     <div className="container">
@@ -30,7 +23,7 @@ const ProfilePage = () => {
         </div>
         <div className="profile-user-settings">
           <h1 className="profile-user-name">
-            {userData.prenom} {userData.nom}
+            {userProfile.prenom} {userProfile.nom}
           </h1>
           <button className="btn profile-edit-btn">Edit Profile</button>
           <button
@@ -44,18 +37,19 @@ const ProfilePage = () => {
           <ul>
             <li>
               <span className="profile-stat-count">Phone Number : </span>{" "}
-              {userData.phoneNumber}
+              {userProfile.phoneNumber}
             </li>
             <li>
               <span className="profile-stat-count">Address</span>{" "}
-              {userData.address}
+              {userProfile.address}
             </li>
             <li>
-              <span className="profile-stat-count">Ville</span> {userData.ville}
+              <span className="profile-stat-count">Ville</span>{" "}
+              {userProfile.ville}
             </li>
             <li>
               <span className="profile-stat-count">Code Postal</span>{" "}
-              {userData.codePostal}
+              {userProfile.codePostal}
             </li>
           </ul>
         </div>

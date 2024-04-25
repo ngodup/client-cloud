@@ -12,9 +12,8 @@ interface CheckoutProps {}
 
 const Checkout: React.FC<CheckoutProps> = () => {
   const dispatch = useAppDispatch();
-  const { user, token } = useContext(AuthContext);
+  const { userResponse, token } = useContext(AuthContext);
   const cartItems = useAppSelector((state) => state.carts.items);
-  debugger;
 
   const cart = {
     items: cartItems.map((item) => ({
@@ -23,7 +22,7 @@ const Checkout: React.FC<CheckoutProps> = () => {
     })),
   };
 
-  if (!user || !token) {
+  if (!userResponse || !token) {
     return (
       <div>
         <h3>Please login first to purchase the food items</h3>
