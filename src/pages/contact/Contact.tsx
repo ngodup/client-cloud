@@ -68,10 +68,7 @@ const Contact = () => {
               style={{ width: "100%", marginBottom: "1rem" }}
               rows={4}
             />
-            <button
-              type="submit"
-              style={{ backgroundColor: "blue", color: "white" }}
-            >
+            <button type="submit" className="btn">
               Submit
             </button>
           </form>
@@ -79,13 +76,13 @@ const Contact = () => {
 
         <div className="social-media-icons">
           <button aria-label="facebook">
-            <FaSquareFacebook />
+            <FaSquareFacebook size={25} color="blue" />
           </button>
           <button aria-label="instagram">
-            <FaInstagramSquare />
+            <FaInstagramSquare size={25} color="orange" />
           </button>
           <button aria-label="youtube">
-            <FaYoutube />
+            <FaYoutube size={30} color="red" />
           </button>
         </div>
       </div>
