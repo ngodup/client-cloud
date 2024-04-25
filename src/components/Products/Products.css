@@ -36,16 +36,20 @@
     margin-left: 10px;
   }
   
-  .card-price {
+  .card-price-rating, .card-addCart-voir {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
   
-  .bag-icon {
-    color: #535353;
+  .add-cart {
+    background-color: var(--primary-color);
+    color: var(--light-color);
   }
 
+  .text-add-to-cart{
+    margin-left: 5px;
+  }
   /* Add these styles to your CSS file */
 .rating-star {
   color: var(--primary-color); /* Gold color for filled stars */
@@ -75,6 +79,52 @@
   margin: 8px 0;
 }
 
+.cart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; 
+
+}
+
+.cart-quantity {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.quantity {
+  border: none;
+  text-align: center;
+  width: 30px;
+  font-size: 16px;
+  color: #43484D;
+  font-weight: 300;
+  border: 1px solid var(--primary-color);
+  display: inline-block;
+  max-width: 30px; /* Add this to prevent the quantity from being bigger than the buttons */
+  overflow: hidden; /* Add this to hide any excess content */
+}
+
+.quantity-btn {
+  border: 1px solid var(--primary-color);
+  width: 30px;
+  background-color: var(--primary-color);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  color: var(--light-color);
+}
+
+button:focus {
+  outline: 0;
+}
+
+
 .veg, .non-veg {
   margin: 10px;
 }
@@ -86,3 +136,4 @@
 .badge-country{
   background-color:#222f9f;
 }
+

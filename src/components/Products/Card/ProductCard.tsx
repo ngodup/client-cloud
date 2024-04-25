@@ -1,13 +1,9 @@
-import React, { useMemo } from "react";
-import { FaPlus } from "react-icons/fa";
-import { FaMinus } from "react-icons/fa";
-import { AiFillStar } from "react-icons/ai";
+import React from "react";
+import { FaCartPlus } from "react-icons/fa";
 import { Product } from "../../../interfaces/product";
 import { useAppDispatch, useAppSelector } from "../../../store";
-import {
-  addToCart,
-  removeFromCart,
-} from "../../../store/shippingCart/shoppingCartSlice";
+import { addToCart } from "../../../store/shippingCart/shoppingCartSlice";
+import { AiFillStar } from "react-icons/ai";
 
 interface ProductCardProps {
   product: Product;
@@ -27,19 +23,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
-
-  const handleRemoveFromCart = (product: Product) => {
-    dispatch(removeFromCart(product));
-  };
-
-  const cartItems = useAppSelector((state) => state.carts.items);
-
-  const productQuantity = useMemo(() => {
-    const item = cartItems.find(
-      (cartItem) => cartItem.product.id === product.id
-    );
-    return item ? item.quantity : 0;
-  }, [cartItems, product.id]);
 
   const generateStars = (rating: number) => {
     const stars = [];
@@ -68,27 +51,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {/* {star} {star} {star} {star} */}
             <span className="total-reviews">{reviews} Reviews</span>
           </section>
-          <section className="card-price">
+          <section className="card-price-rating">
             <div className="price">€{price}</div>
             {rating && <div className="rating">{generateStars(rating)}</div>}
+          </section>
 
-            <div className="bag">
-              <FaPlus
-                className="bag-icon"
-                onClick={() => handleAddToCart(product)}
-              />
-              <span className="quantity">{productQuantity}</span>
-              <FaMinus
-                className="bag-icon"
-                onClick={() => handleRemoveFromCart(product)}
-              />
+          <section
+            className="card-addCart-voir"
+            onClick={() => handleAddToCart(product)}
+          >
+            <div className="add-cart badge">
+              <FaCartPlus className="bag-icon" />
+              <span className="text-add-to-cart">Ajouter au panier</span>
             </div>
             <div>
               <button
                 onClick={() => setSelectedProduct(product)}
                 className="btn"
               >
-                View
+                Voir
               </button>
             </div>
           </section>
