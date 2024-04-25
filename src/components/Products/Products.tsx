@@ -81,13 +81,25 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
               </div>
               <div className="cart-quantity">
                 <FaPlus
-                  className="quantity-btn"
-                  onClick={() => handleAddToCart(selectedProduct)}
+                  className={`quantity-btn ${
+                    !selectedProduct.active && "disabled"
+                  }`}
+                  onClick={
+                    selectedProduct.active
+                      ? () => handleAddToCart(selectedProduct)
+                      : undefined
+                  }
                 />
                 <span className="quantity">{productQuantity}</span>
                 <FaMinus
-                  className="quantity-btn"
-                  onClick={() => handleRemoveFromCart(selectedProduct)}
+                  className={`quantity-btn ${
+                    !selectedProduct.active && "disabled"
+                  }`}
+                  onClick={
+                    selectedProduct.active
+                      ? () => handleRemoveFromCart(selectedProduct)
+                      : undefined
+                  }
                 />
               </div>
               <span className="badge badge-country">

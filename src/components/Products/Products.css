@@ -120,6 +120,12 @@
   color: var(--light-color);
 }
 
+.add-cart.disabled, .quantity-btn.disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
 button:focus {
   outline: 0;
 }

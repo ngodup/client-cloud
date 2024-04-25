@@ -56,14 +56,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {rating && <div className="rating">{generateStars(rating)}</div>}
           </section>
 
-          <section
-            className="card-addCart-voir"
-            onClick={() => handleAddToCart(product)}
-          >
-            <div className="add-cart badge">
+          <section className="card-addCart-voir">
+            <div
+              className={`add-cart badge ${!active && "disabled"}`}
+              onClick={active ? () => handleAddToCart(product) : undefined}
+            >
               <FaCartPlus className="bag-icon" />
               <span className="text-add-to-cart">Ajouter au panier</span>
             </div>
+
             <div>
               <button
                 onClick={() => setSelectedProduct(product)}
