@@ -5,12 +5,13 @@ import { UserProfile } from "../../interfaces/user";
 
 const ProfilePage = () => {
   const { user } = useContext<AuthContextProps>(AuthContext);
+  debugger;
 
   if (!user) {
     return <div>Loading...</div>;
   }
 
-  const { userProfile } = user.user;
+  const { userProfile } = user;
 
   const userData: UserProfile = userProfile ?? {
     prenom: "",

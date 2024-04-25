@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
+import axios from "axios";
 import { Product } from "../../interfaces/product";
+import AuthContext from "../../context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { formatPrice, visit } from "../../utils/date";
 import { removeFromCart } from "../../store/shippingCart/shoppingCartSlice";
-import { Navigate } from "react-router-dom";
-import axios from "axios";
-import "./ShoppingcartScreen.css";
 
-interface ShoppingcartScreenProps {}
+import "./Checkout.css";
 
-const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
+interface CheckoutProps {}
+
+const Checkout: React.FC<CheckoutProps> = () => {
   const dispatch = useAppDispatch();
+  const { user, token } = useContext(AuthContext);
   const cartItems = useAppSelector((state) => state.carts.items);
+  debugger;
 
   const cart = {
     items: cartItems.map((item) => ({
@@ -20,11 +23,24 @@ const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
     })),
   };
 
+  if (!user || !token) {
+    return (
+      <div>
+        <h3>Please login first to purchase the food items</h3>
+      </div>
+    );
+  }
+
   const handleCheckout = async () => {
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/stripe/checkout-sessions",
-        cart
+        cart,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       visit(response.data.url);
     } catch (error) {
@@ -50,7 +66,7 @@ const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
               <h5>Votre panier</h5>
             </div>
             <div>
-              <button className="checkout-button" onClick={handleCheckout}>
+              <button className="btn" onClick={handleCheckout}>
                 Procéder au paiement
               </button>
             </div>
@@ -99,4 +115,4 @@ const ShoppingcartScreen: React.FC<ShoppingcartScreenProps> = () => {
   );
 };
 
-export default ShoppingcartScreen;
+export default Checkout;

@@ -32,6 +32,9 @@ li {
   padding: 5px 10px;
 }
 
+.btns:hover, .btn:hover {
+  background-color: #f4a148;
+}
 .error {
   color: red;
   font-weight: 600;

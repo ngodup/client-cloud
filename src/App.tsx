@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ShoppingcartScreen from "./pages/shopingcartScreen/ShoppingcartScreen";
+import Checkout from "./pages/Checkout/Checkout";
 import { useAppDispatch } from "./store";
 import { fetchProducts } from "./store/products/products-slice";
 import MainLayout from "./components/Navigation/MainLayout/MainLayout";
@@ -25,7 +25,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<ShoppingcartScreen />} />
+          <Route path="/cart" element={<Checkout />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />

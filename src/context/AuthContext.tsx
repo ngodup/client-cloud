@@ -3,38 +3,40 @@ import { login, getUserInfo } from "../utils/userAPI";
 import { User } from "../interfaces/user";
 
 export interface AuthContextProps {
-  user: any | undefined;
+  user: User | undefined;
   isAuthenticated: boolean;
+  token: string | null;
   error: string | null;
   handleLogin: (email: string, password: string) => Promise<void>;
-  // handleRegister: (
-  //   name: string,
-  //   email: string,
-  //   password: string
-  // ) => Promise<void>;
   handleLogout: () => void;
 }
 
 export const defaultContextValue: AuthContextProps = {
   user: undefined,
   isAuthenticated: false,
+  token: null,
   error: null,
   handleLogin: async () => {},
-  // handleRegister: async () => {},
   handleLogout: () => {},
 };
 
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
 const AuthContext = createContext<AuthContextProps>(defaultContextValue);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any | undefined>(undefined);
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [user, setUser] = useState<User | undefined>(undefined);
+  const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = getCookie("token");
-    if (token) {
-      getUserInfo(token).then((userData) => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+      getUserInfo(storedToken).then((userData) => {
         setUser(userData);
         setIsAuthenticated(true);
       });
@@ -44,7 +46,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const handleLogin = async (email: string, password: string) => {
     try {
       const { token } = await login(email, password);
-      setCookie("token", token);
+      localStorage.setItem("token", token);
+      setToken(token);
       const userData = await getUserInfo(token);
       setUser(userData);
       setIsAuthenticated(true);
@@ -54,56 +57,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // const handleRegister = async (
-  //   name: string,
-  //   email: string,
-  //   password: string
-  // ) => {
-  //   try {
-  //     const { token } = await register(name, email, password);
-  //     setCookie("token", token);
-  //     const userData = await getUserInfo(token);
-  //     setUser(userData);
-  //     setIsAuthenticated(true);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError("Registration failed. Please check your input and try again.");
-  //   }
-  // };
-
   const handleLogout = () => {
     setUser(undefined);
     setIsAuthenticated(false);
-    deleteCookie("token");
-  };
-
-  const getCookie = (name: string) => {
-    const cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim().split("=");
-      if (cookie[0] === name) {
-        return cookie[1];
-      }
-    }
-    return null;
-  };
-
-  const setCookie = (name: string, value: string) => {
-    document.cookie = `${name}=${value}; path=/; secure; HttpOnly`;
-  };
-
-  const deleteCookie = (name: string) => {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    setToken(null);
+    localStorage.removeItem("token");
   };
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        token,
         isAuthenticated,
         error,
         handleLogin,
-        // handleRegister,
         handleLogout,
       }}
     >
