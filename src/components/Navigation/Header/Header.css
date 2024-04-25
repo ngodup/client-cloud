@@ -26,6 +26,22 @@ input {
     color: var(--primary-color) !important;
 }
 
+.user-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.user-icon Link {
+  color: var(--light-color) !important;
+}
+
 .icon-badge-container {
   position: relative;
   display: inline-block;

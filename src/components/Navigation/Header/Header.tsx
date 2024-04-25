@@ -1,22 +1,19 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import {
-  AiOutlineShoppingCart,
-  AiOutlineUser,
-  AiOutlineUserAdd,
-} from "react-icons/ai";
-import "react-responsive-modal/styles.css";
 import { useAppSelector } from "../../../store";
-import "./Header.css";
 import AuthContext from "../../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { setQuery } from "../../../store/products/products-slice";
 import { getQuerySelector } from "../../../store/products/selectors";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { FaUserSlash } from "react-icons/fa";
+import "./Header.css";
+import "react-responsive-modal/styles.css";
 
 interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, userResponse } = useContext(AuthContext);
   const dispatch = useDispatch();
   const cartItems = useAppSelector((state) => state.carts.items);
   const query = useAppSelector(getQuerySelector);
@@ -25,7 +22,9 @@ const Header: React.FC<HeaderProps> = () => {
     (total, item) => total + item.quantity,
     0
   );
-
+  const userNameIcon = userResponse?.user?.userProfile?.nom
+    .charAt(0)
+    .toUpperCase();
   const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -67,12 +66,12 @@ const Header: React.FC<HeaderProps> = () => {
           </Link>
 
           {isAuthenticated ? (
-            <Link to="/profile" className="nav-link">
-              <AiOutlineUser className="nav-icons" />
-            </Link>
+            <div className="user-icon">
+              <Link to="/profile">{userNameIcon}</Link>
+            </div>
           ) : (
             <Link to="/login" className="nav-link">
-              <AiOutlineUserAdd className="nav-icons" />
+              <FaUserSlash className="nav-icons" />
             </Link>
           )}
         </div>
