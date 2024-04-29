@@ -72,7 +72,7 @@ const LoginPage = () => {
             onChange={handleInputChange}
             required
           />
-          <input type="submit" className="fadeIn fourth" value="Log In" />
+          <input type="submit" className="fadeIn fourth btn" value="Log In" />
         </form>
 
         <div id="formFooter">
