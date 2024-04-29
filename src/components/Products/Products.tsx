@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 import { Product } from "../../interfaces/product";
 import CustomModal from "../shared/CustomModal/CustomModal";
@@ -10,6 +10,9 @@ import {
 } from "../../store/shippingCart/shoppingCartSlice";
 import "./Products.css";
 import { useAppDispatch, useAppSelector } from "../../store";
+import AddComment from "./Comment/AddComment";
+import AuthContext from "../../context/AuthContext";
+import { addComment } from "../../utils/userAPI";
 
 interface ProductsProps {
   filteredProducts: Product[];
@@ -20,6 +23,8 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   // code for Modal cart increment and Decrment Quantity
   const cartItems = useAppSelector((state) => state.carts.items);
   const dispatch = useAppDispatch();
+
+  const { isAuthenticated } = useContext(AuthContext);
 
   const productQuantity = useMemo(() => {
     if (selectedProduct) {
@@ -38,7 +43,23 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   const handleRemoveFromCart = (product: Product) => {
     dispatch(removeFromCart(product));
   };
+
   // End of the code for Modal cart increment and Decrment Quantity
+  const handleAddComment = async (content: string, productId: number) => {
+    // const userId = userResponse?.user.id;
+    const token = localStorage.getItem("token"); // Or however you're storing the token
+    if (!token) {
+      // Handle the case where the token is not available
+      return;
+    }
+    try {
+      await addComment(productId, content, token);
+      alert("Add comment on a product successful");
+    } catch (error) {
+      // Handle the error here
+      alert("Error on adding comment on a product successful " + error);
+    }
+  };
 
   if (filteredProducts.length === 0) {
     return null;
@@ -115,6 +136,12 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
               </span>
             </div>
           </div>
+          {isAuthenticated && (
+            <AddComment
+              onAddComment={handleAddComment}
+              productId={selectedProduct.id}
+            />
+          )}
         </CustomModal>
       )}
     </>
