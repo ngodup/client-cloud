@@ -1,4 +1,5 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState, useEffect } from "react";
+import axios from "axios";
 import { IoMdCloseCircle } from "react-icons/io";
 import { Product } from "../../interfaces/product";
 import CustomModal from "../shared/CustomModal/CustomModal";
@@ -13,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import AddComment from "./Comment/AddComment";
 import AuthContext from "../../context/AuthContext";
 import { addComment } from "../../utils/userAPI";
+import { formatDate } from "../../utils/general";
 
 interface ProductsProps {
   filteredProducts: Product[];
@@ -20,11 +22,39 @@ interface ProductsProps {
 
 const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [commentDetail, setCommentDetail] = useState<any>([]);
   // code for Modal cart increment and Decrment Quantity
   const cartItems = useAppSelector((state) => state.carts.items);
   const dispatch = useAppDispatch();
 
   const { isAuthenticated } = useContext(AuthContext);
+
+  useEffect(() => {
+    let isMounted = true; // to prevent setting state of an unmounted component
+
+    const fetchProductDetails = async () => {
+      if (selectedProduct) {
+        try {
+          const { data } = await axios.get(
+            `http://127.0.0.1:8000/api/products/${selectedProduct.id}`
+          );
+          if (isMounted) {
+            // Check if the component is still mounted before setting state
+            const comments = data.product.comments;
+            setCommentDetail(comments);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchProductDetails();
+
+    return () => {
+      isMounted = false; // clean up on component unmount
+    };
+  }, [selectedProduct]);
 
   const productQuantity = useMemo(() => {
     if (selectedProduct) {
@@ -36,6 +66,10 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
     return 0;
   }, [cartItems, selectedProduct]);
 
+  if (filteredProducts.length === 0) {
+    return null;
+  }
+
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
@@ -43,8 +77,9 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   const handleRemoveFromCart = (product: Product) => {
     dispatch(removeFromCart(product));
   };
-
   // End of the code for Modal cart increment and Decrment Quantity
+
+  //Code for adding comment on the product.
   const handleAddComment = async (content: string, productId: number) => {
     // const userId = userResponse?.user.id;
     const token = localStorage.getItem("token"); // Or however you're storing the token
@@ -60,10 +95,6 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
       alert("Error on adding comment on a product successful " + error);
     }
   };
-
-  if (filteredProducts.length === 0) {
-    return null;
-  }
 
   return (
     <>
@@ -96,7 +127,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
             />
             <div className="modal-product-details">
               <h3 className="">{selectedProduct.name}</h3>
-              <p>{selectedProduct.description}</p>
+              <p>Description: {selectedProduct.description}</p>
               <div className="modal-price">
                 <strong>Price : </strong>€{selectedProduct.price}
               </div>
@@ -136,12 +167,36 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
               </span>
             </div>
           </div>
-          {isAuthenticated && (
-            <AddComment
-              onAddComment={handleAddComment}
-              productId={selectedProduct.id}
-            />
-          )}
+
+          <div>
+            {commentDetail &&
+              commentDetail.length > 0 &&
+              commentDetail.map((comment: any, index: number) => (
+                <div className="comment" key={index}>
+                  <div className="profile-image">
+                    <img src="/avatar.jpg" alt="Avatar" id="icon" />
+                    <span className="comment-author">Keanu</span>
+                  </div>
+                  <div className="comment-content">
+                    <div className="comment-header">
+                      <span className="comment-date">
+                        {formatDate(comment.createdAt)}
+                      </span>
+                    </div>
+                    <div className="comment-text">{comment.content}</div>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          <div className="add-comment">
+            {isAuthenticated && (
+              <AddComment
+                onAddComment={handleAddComment}
+                productId={selectedProduct.id}
+              />
+            )}
+          </div>
         </CustomModal>
       )}
     </>

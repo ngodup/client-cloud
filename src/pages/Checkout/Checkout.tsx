@@ -3,7 +3,7 @@ import axios from "axios";
 import { Product } from "../../interfaces/product";
 import AuthContext from "../../context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { formatPrice, visit } from "../../utils/date";
+import { formatPrice, visit } from "../../utils/general";
 import { removeFromCart } from "../../store/shippingCart/shoppingCartSlice";
 
 import "./Checkout.css";

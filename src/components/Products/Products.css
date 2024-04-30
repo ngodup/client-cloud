@@ -143,3 +143,22 @@ button:focus {
   background-color:#222f9f;
 }
 
+/* avatar on Comment */
+.profile-image {
+  float: left;
+  width: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 3rem;
+  flex-direction: column;
+}
+
+.profile-image img {
+  border-radius: 50%;
+}
+
+.comment-author, .comment-date {
+  font-size: 0.7rem;
+  color: gray
+}
