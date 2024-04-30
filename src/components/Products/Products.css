@@ -144,9 +144,8 @@ button:focus {
 }
 
 /* avatar on Comment */
-.profile-image {
+.comment-profile {
   float: left;
-  width: 4em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -154,8 +153,9 @@ button:focus {
   flex-direction: column;
 }
 
-.profile-image img {
+.comment-profile img {
   border-radius: 50%;
+  width: 40px;
 }
 
 .comment-author, .comment-date {

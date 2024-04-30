@@ -173,8 +173,8 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
               commentDetail.length > 0 &&
               commentDetail.map((comment: any, index: number) => (
                 <div className="comment" key={index}>
-                  <div className="profile-image">
-                    <img src="/avatar.jpg" alt="Avatar" id="icon" />
+                  <div className="comment-profile">
+                    <img src="/avatar.jpg" alt="Avatar" />
                     <span className="comment-author">Keanu</span>
                   </div>
                   <div className="comment-content">
