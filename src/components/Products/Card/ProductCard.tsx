@@ -1,9 +1,10 @@
 import React from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { Product } from "../../../interfaces/product";
-import { useAppDispatch, useAppSelector } from "../../../store";
+import { useAppDispatch } from "../../../store";
 import { addToCart } from "../../../store/shippingCart/shoppingCartSlice";
 import { AiFillStar } from "react-icons/ai";
+import { formatPrice } from "../../../utils/date";
 
 interface ProductCardProps {
   product: Product;
@@ -52,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <span className="total-reviews">{reviews} Reviews</span>
           </section>
           <section className="card-price-rating">
-            <div className="price">€{price}</div>
+            <div className="price">{formatPrice(price)}</div>
             {rating && <div className="rating">{generateStars(rating)}</div>}
           </section>
 
