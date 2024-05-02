@@ -4,9 +4,14 @@ import "./AddComment.css";
 type AddCommentProps = {
   onAddComment: (comment: string, productId: number) => void;
   productId: number | undefined;
+  isAuthenticated: boolean;
 };
 
-const AddComment: React.FC<AddCommentProps> = ({ onAddComment, productId }) => {
+const AddComment: React.FC<AddCommentProps> = ({
+  onAddComment,
+  productId,
+  isAuthenticated,
+}) => {
   const [content, setContent] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,10 +29,11 @@ const AddComment: React.FC<AddCommentProps> = ({ onAddComment, productId }) => {
           className="comment"
           rows={4}
           value={content}
+          disabled={!isAuthenticated}
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
-      <button type="submit" className="btn">
+      <button type="submit" className="btn" disabled={!isAuthenticated}>
         Ajouter un commentaire
       </button>
     </form>

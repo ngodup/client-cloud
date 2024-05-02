@@ -144,6 +144,9 @@ button:focus {
 }
 
 /* avatar on Comment */
+.comment  {
+  margin-bottom: 20px;
+}
 .comment-profile {
   float: left;
   display: flex;

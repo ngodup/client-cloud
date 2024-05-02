@@ -33,6 +33,8 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
     let isMounted = true; // to prevent setting state of an unmounted component
 
     const fetchProductDetails = async () => {
+      setCommentDetail([]);
+
       if (selectedProduct) {
         try {
           const { data } = await axios.get(
@@ -40,7 +42,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           );
           if (isMounted) {
             // Check if the component is still mounted before setting state
-            const comments = data.product.comments;
+            const comments = data.comments;
             setCommentDetail(comments);
           }
         } catch (error) {
@@ -175,12 +177,12 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
                 <div className="comment" key={index}>
                   <div className="comment-profile">
                     <img src="/avatar.jpg" alt="Avatar" />
-                    <span className="comment-author">Keanu</span>
+                    <span className="comment-author">{comment.prenom}</span>
                   </div>
                   <div className="comment-content">
                     <div className="comment-header">
                       <span className="comment-date">
-                        {formatDate(comment.createdAt)}
+                        {formatDate(comment.createdAt.date)}
                       </span>
                     </div>
                     <div className="comment-text">{comment.content}</div>
@@ -190,12 +192,11 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           </div>
 
           <div className="add-comment">
-            {isAuthenticated && (
-              <AddComment
-                onAddComment={handleAddComment}
-                productId={selectedProduct.id}
-              />
-            )}
+            <AddComment
+              onAddComment={handleAddComment}
+              productId={selectedProduct.id}
+              isAuthenticated={isAuthenticated}
+            />
           </div>
         </CustomModal>
       )}
