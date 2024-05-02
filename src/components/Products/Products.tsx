@@ -1,7 +1,6 @@
 import React, { useContext, useMemo, useState, useEffect } from "react";
 import axios from "axios";
 import { IoMdCloseCircle } from "react-icons/io";
-import { Product } from "../../interfaces/product";
 import CustomModal from "../shared/CustomModal/CustomModal";
 import ProductCard from "./Card/ProductCard";
 import { FaMinus, FaPlus } from "react-icons/fa";
@@ -11,10 +10,12 @@ import {
 } from "../../store/shippingCart/shoppingCartSlice";
 import "./Products.css";
 import { useAppDispatch, useAppSelector } from "../../store";
-import AddComment from "./Comment/AddComment";
 import AuthContext from "../../context/AuthContext";
 import { addComment } from "../../utils/userAPI";
-import { formatDate } from "../../utils/general";
+import CommentCard from "./Comment/CommentCard";
+import { Product } from "../../interfaces/product";
+import AddComment from "./Comment/AddComment";
+import { Comment } from "../../interfaces/comment";
 
 interface ProductsProps {
   filteredProducts: Product[];
@@ -22,7 +23,8 @@ interface ProductsProps {
 
 const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [commentDetail, setCommentDetail] = useState<any>([]);
+  const [commentDetail, setCommentDetail] = useState<Comment[]>([]);
+
   // code for Modal cart increment and Decrment Quantity
   const cartItems = useAppSelector((state) => state.carts.items);
   const dispatch = useAppDispatch();
@@ -42,7 +44,8 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           );
           if (isMounted) {
             // Check if the component is still mounted before setting state
-            const comments = data.comments;
+            const comments: Comment[] = data?.comments;
+
             setCommentDetail(comments);
           }
         } catch (error) {
@@ -173,20 +176,9 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           <div>
             {commentDetail &&
               commentDetail.length > 0 &&
-              commentDetail.map((comment: any, index: number) => (
-                <div className="comment" key={index}>
-                  <div className="comment-profile">
-                    <img src="/avatar.jpg" alt="Avatar" />
-                    <span className="comment-author">{comment.prenom}</span>
-                  </div>
-                  <div className="comment-content">
-                    <div className="comment-header">
-                      <span className="comment-date">
-                        {formatDate(comment.createdAt.date)}
-                      </span>
-                    </div>
-                    <div className="comment-text">{comment.content}</div>
-                  </div>
+              commentDetail.map((comment: Comment) => (
+                <div key={comment.id}>
+                  <CommentCard comment={comment} />
                 </div>
               ))}
           </div>

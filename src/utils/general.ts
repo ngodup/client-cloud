@@ -12,7 +12,7 @@ export const visit = (url: string) => {
   window.location.href = url;
 };
 
-export const formatDate = (dateString: string) => {
+export const formatDate = (dateString: Date) => {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",

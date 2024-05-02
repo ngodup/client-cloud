@@ -1,13 +1,10 @@
 import axios from "axios";
 import { UserResponse } from "../interfaces/user";
+import { CommentResponse, Comment } from "../interfaces/comment";
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
 });
-
-type CommentResponse = {
-  // Define the shape of your response here
-};
 
 export const login = async (
   email: string,
@@ -44,4 +41,26 @@ export const addComment = async (
     }
   );
   return response.data;
+};
+
+export const getUserComments = async (
+  token: string,
+  email: string
+): Promise<Comment[]> => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/comments/user",
+      { email: email }, // Include the email parameter in the request body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json", // Set the Content-Type header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };

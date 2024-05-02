@@ -1,0 +1,30 @@
+/* avatar on Comment */
+.comment  {
+  margin-bottom: 20px;
+  background: #ecebeb;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.comment-profile {
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 3rem;
+  flex-direction: column;
+}
+  
+.comment-profile img {
+  border-radius: 50%;
+  width: 40px;
+}
+  
+.comment-author, .comment-date, .comment-user {
+  font-size: 0.7rem;
+  color: gray
+}
+
+.comment-user {
+  margin-left: 15px;
+}

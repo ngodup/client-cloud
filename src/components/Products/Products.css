@@ -142,26 +142,3 @@ button:focus {
 .badge-country{
   background-color:#222f9f;
 }
-
-/* avatar on Comment */
-.comment  {
-  margin-bottom: 20px;
-}
-.comment-profile {
-  float: left;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 3rem;
-  flex-direction: column;
-}
-
-.comment-profile img {
-  border-radius: 50%;
-  width: 40px;
-}
-
-.comment-author, .comment-date {
-  font-size: 0.7rem;
-  color: gray
-}
