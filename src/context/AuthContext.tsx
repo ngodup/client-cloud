@@ -55,7 +55,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsAuthenticated(true);
     } catch (error) {
       console.error(error);
-      setError("Login failed. Please check your email and password.");
+      setError(
+        "La connexion a échoué. Veuillez vérifier votre email et votre mot de passe."
+      );
     }
   };
 

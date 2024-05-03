@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { AuthProvider } from "./context/AuthContext";
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import "./global.css";
 import App from "./App";

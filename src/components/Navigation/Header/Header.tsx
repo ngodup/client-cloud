@@ -10,6 +10,7 @@ import { FaUserSlash } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
 import "./Header.css";
 import "react-responsive-modal/styles.css";
+import { ToastContainer, toast } from "react-toastify";
 
 interface HeaderProps {}
 
@@ -37,6 +38,7 @@ const Header: React.FC<HeaderProps> = () => {
   const onLogout = () => {
     try {
       handleLogout();
+      toast.success("Déconnexion de l'utilisateur réussie.");
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -88,8 +90,22 @@ const Header: React.FC<HeaderProps> = () => {
           )}
 
           {isAuthenticated && (
-            <AiOutlineLogout className="nav-icons" onClick={onLogout} />
+            <>
+              <AiOutlineLogout className="nav-icons" onClick={onLogout} />
+            </>
           )}
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </div>
       </nav>
     </>
