@@ -64,3 +64,9 @@ export const getUserComments = async (
     throw error;
   }
 };
+
+//No need
+// export const logout = async () => {
+//   await api.get<{ token: string }>("/logout");
+//   return;
+// };
