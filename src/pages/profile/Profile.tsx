@@ -55,7 +55,7 @@ const ProfilePage = () => {
           <h1 className="profile-user-name">
             {userProfile.prenom} {userProfile.nom}
           </h1>
-          <button className="btn profile-edit-btn">Edit Profile</button>
+          <button className="btn profile-edit-btn">Editer le profil</button>
         </div>
         <div className="profile-stats">
           <ul>
@@ -79,7 +79,7 @@ const ProfilePage = () => {
         </div>
       </div>
       <div className="user-comments">
-        <h2>All Comments</h2>
+        <h2>TOUS LES COMMENTAIRES</h2>
         {loading && <p>Loading comments...</p>}
         {error && <p>{error}</p>}
         {!loading && !error && userComments.length > 0 && (
