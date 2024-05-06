@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import "./Auth.css";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "./Auth.css";
 
 interface SignUpFormState {
   email: string;
@@ -16,6 +17,7 @@ interface SignUpFormState {
 }
 
 const SignUpPage = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [state, setState] = useState<SignUpFormState>({
     email: "",
     password: "",
@@ -28,10 +30,7 @@ const SignUpPage = () => {
     codePostal: "",
   });
 
-  const [loginMessage, setLoginMessage] = useState("");
-  const [loginError, setLoginError] = useState(false);
-  const [loginAttempted, setLoginAttempted] = useState(false);
-
+  const [profileImage, setProfileImage] = useState<File | undefined>();
   const {
     email,
     password,
@@ -47,44 +46,65 @@ const SignUpPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const response = await axios.post("http://127.0.0.1:8000/register", {
-        email,
-        password,
-        prenom,
-        nom,
-        dateDeNaissance,
-        phoneNumber,
-        address,
-        ville,
-        codePostal,
-      });
-      setLoginAttempted(true);
-      if (response.status === 201 || response.status === 200) {
-        setLoginMessage("Registration successful!");
-        console.log("Registration successful!");
-        setLoginError(false);
-      } else {
-        console.error("Registration failed: ", response.data);
-        setLoginMessage(response.data.message);
-        setLoginError(true);
+    if (formRef.current) {
+      const formData = new FormData();
+
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("prenom", prenom);
+      formData.append("nom", nom);
+
+      if (dateDeNaissance) {
+        formData.append("dateDeNaissance", dateDeNaissance);
       }
-    } catch (error) {
-      console.error("Error during registration: ", error);
-      setLoginMessage((error as Error).message);
-      setLoginError(true);
-    } finally {
-      setState({
-        email: "",
-        password: "",
-        prenom: "",
-        nom: "",
-        dateDeNaissance: "",
-        phoneNumber: "",
-        address: "",
-        ville: "",
-        codePostal: "",
-      });
+
+      if (phoneNumber) {
+        formData.append("phoneNumber", phoneNumber);
+      }
+
+      if (address) {
+        formData.append("address", address);
+      }
+
+      if (ville) {
+        formData.append("ville", ville);
+      }
+
+      if (codePostal) {
+        formData.append("codePostal", codePostal);
+      }
+
+      if (profileImage) {
+        formData.append("photoDeProfil", profileImage);
+      }
+
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/register",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.status === 201 || response.status === 200) {
+          toast.success("Registration successful!");
+        } else {
+          // Handle non-200/201 responses explicitly
+          toast.error("Registration failed. Please check the server response.");
+        }
+      } catch (error: any) {
+        console.error("Error during registration: ", error);
+        toast.error(error.response?.data?.message || "Registration failed.");
+      } finally {
+        // Reset the form fields using the formRef ref
+        const form = formRef.current;
+        if (form) {
+          form.reset();
+        }
+      }
     }
   };
 
@@ -97,24 +117,27 @@ const SignUpPage = () => {
     });
   };
 
-  const loginMessageElement = loginAttempted && (
-    <div className={`login-message ${loginError ? "error" : "success"}`}>
-      {loginMessage}
-    </div>
-  );
+  const handleOnProfilePictureChange = (
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
+    };
+
+    setProfileImage(target.files[0]);
+  };
 
   return (
     <div className="wrapper fadeInDown">
       <div id="form-signup-wrapper">
-        <h2 className="active">Registeration a new User</h2>
+        <h2 className="active">Registration for a new User</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} ref={formRef}>
           <div className="row">
             <div className="field-container">
               <label htmlFor="email">Email*</label>
               <input
                 type="email"
-                id="login"
                 className="fadeIn second"
                 name="email"
                 placeholder="Email"
@@ -124,10 +147,9 @@ const SignUpPage = () => {
               />
             </div>
             <div className="field-container">
-              <label htmlFor="nom">Password*</label>
+              <label htmlFor="password">Password*</label>
               <input
                 type="password"
-                id="password"
                 className="fadeIn third"
                 name="password"
                 placeholder="Password"
@@ -137,26 +159,36 @@ const SignUpPage = () => {
               />
             </div>
           </div>
+          <div className="field-container">
+            <label htmlFor="photoDeProfil">Profile Picture</label>
+            <input
+              type="file"
+              className="fadeIn second"
+              name="photoDeProfil"
+              accept="image/*"
+              onChange={handleOnProfilePictureChange}
+            />
+          </div>
           <div className="row">
             <div className="field-container">
-              <label htmlFor="prenom">Prenom*</label>
+              <label htmlFor="prenom">First Name*</label>
               <input
                 type="text"
                 className="fadeIn second"
                 name="prenom"
-                placeholder="Prenom"
+                placeholder="First Name"
                 value={prenom}
                 onChange={handleInputChange}
                 required
               />
             </div>
             <div className="field-container">
-              <label htmlFor="nom">Nom*</label>
+              <label htmlFor="nom">Last Name*</label>
               <input
                 type="text"
                 className="fadeIn second"
                 name="nom"
-                placeholder="Nom"
+                placeholder="Last Name"
                 value={nom}
                 onChange={handleInputChange}
                 required
@@ -166,7 +198,7 @@ const SignUpPage = () => {
 
           <div className="row">
             <div className="field-container">
-              <label htmlFor="dateDeNaissance">Date de naissance</label>
+              <label htmlFor="dateDeNaissance">Date of Birth</label>
               <input
                 type="date"
                 className="fadeIn second"
@@ -200,23 +232,23 @@ const SignUpPage = () => {
           </div>
           <div className="row">
             <div className="field-container">
-              <label htmlFor="ville">Ville</label>
+              <label htmlFor="ville">City</label>
               <input
                 type="text"
                 className="fadeIn second"
                 name="ville"
-                placeholder="Ville"
+                placeholder="City"
                 value={ville}
                 onChange={handleInputChange}
               />
             </div>
             <div className="field-container">
-              <label htmlFor="codePostal">Code Postal</label>
+              <label htmlFor="codePostal">Postal Code</label>
               <input
                 type="text"
                 className="fadeIn second"
                 name="codePostal"
-                placeholder="Code Postal"
+                placeholder="Postal Code"
                 value={codePostal}
                 onChange={handleInputChange}
                 pattern="[0-9]{5}"
@@ -227,9 +259,23 @@ const SignUpPage = () => {
 
           <input type="submit" className="fadeIn fourth" value="Sign Up" />
         </form>
+        <div>
+          {" "}
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </div>
 
         <div id="formFooter">
-          <div>{loginMessageElement}</div>
           <div className="auth-footer-link">
             <Link to="/login" className="underlineHover">
               Connectez-vous, si vous êtes un utilisateur existant
