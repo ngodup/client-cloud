@@ -15,7 +15,7 @@ import { addComment } from "../../utils/userAPI";
 import CommentCard from "./Comment/CommentCard";
 import { Product } from "../../interfaces/product";
 import AddComment from "./Comment/AddComment";
-import { Comment } from "../../interfaces/comment";
+import { CommentResponse } from "../../interfaces/comment";
 
 interface ProductsProps {
   filteredProducts: Product[];
@@ -23,7 +23,7 @@ interface ProductsProps {
 
 const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [commentDetail, setCommentDetail] = useState<Comment[]>([]);
+  const [productComments, setProductComments] = useState<CommentResponse[]>([]);
 
   // code for Modal cart increment and Decrment Quantity
   const cartItems = useAppSelector((state) => state.carts.items);
@@ -35,7 +35,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
     let isMounted = true; // to prevent setting state of an unmounted component
 
     const fetchProductDetails = async () => {
-      setCommentDetail([]);
+      setProductComments([]);
 
       if (selectedProduct) {
         try {
@@ -44,9 +44,9 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           );
           if (isMounted) {
             // Check if the component is still mounted before setting state
-            const comments: Comment[] = data?.comments;
+            const comments: CommentResponse[] = data?.comments;
 
-            setCommentDetail(comments);
+            setProductComments(comments);
           }
         } catch (error) {
           console.error(error);
@@ -93,8 +93,11 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
       return;
     }
     try {
-      await addComment(productId, content, token);
+      const response = await addComment(productId, content, token);
       alert("Add comment on a product successful");
+      if (response) {
+        setProductComments([response, ...productComments]);
+      }
     } catch (error) {
       // Handle the error here
       alert("Error on adding comment on a product successful " + error);
@@ -174,9 +177,9 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           </div>
 
           <div>
-            {commentDetail &&
-              commentDetail.length > 0 &&
-              commentDetail.map((comment: Comment) => (
+            {productComments &&
+              productComments.length > 0 &&
+              productComments.map((comment: CommentResponse) => (
                 <div key={comment.id}>
                   <CommentCard comment={comment} />
                 </div>

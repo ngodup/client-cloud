@@ -43,7 +43,7 @@ const ProfilePage = () => {
     return <div>No user profile found</div>;
   }
 
-  const { userProfile } = userResponse.user;
+  const { userProfile, email } = userResponse.user;
 
   return (
     <div className="container">
@@ -87,8 +87,12 @@ const ProfilePage = () => {
             {userComments.map((comment: Comment, index: number) => {
               const commentWithAuthor = {
                 ...comment,
-                author: userProfile.nom,
-                prenom: userProfile.prenom,
+                author: {
+                  id: userResponse.user.id,
+                  email: email,
+                  nom: userProfile.nom,
+                  prenom: userProfile.prenom,
+                },
               };
 
               return (
