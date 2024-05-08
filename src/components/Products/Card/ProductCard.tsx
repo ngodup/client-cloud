@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { Product } from "../../../interfaces/product";
 import { useAppDispatch } from "../../../store";
@@ -11,6 +11,27 @@ interface ProductCardProps {
   setSelectedProduct: (product: Product) => void;
 }
 
+const generateStars = (maxRating: number) => {
+  const rating = Math.floor(Math.random() * (maxRating + 1));
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    if (i < rating) {
+      stars.push(
+        <AiFillStar key={i} className="rating-star" title="Rating star" />
+      );
+    } else {
+      stars.push(
+        <AiFillStar
+          key={i}
+          className="rating-star-empty"
+          title="Empty rating star"
+        />
+      );
+    }
+  }
+  return stars;
+};
+
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   setSelectedProduct,
@@ -21,63 +42,48 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = useCallback(() => {
     dispatch(addToCart(product));
-  };
-
-  const generateStars = (rating: number) => {
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      if (i < rating) {
-        stars.push(<AiFillStar key={i} className="rating-star" />);
-      } else {
-        stars.push(<AiFillStar key={i} className="rating-star-empty" />);
-      }
-    }
-    return stars;
-  };
+  }, [dispatch, product]);
 
   return (
-    <>
-      <section className="card">
-        <img
-          src={`http://127.0.0.1:8000/images/products/${imageName}`}
-          alt={name}
-          className="card-img"
-        />
+    <section className="card">
+      <img
+        src={`http://127.0.0.1:8000/images/products/${imageName}`}
+        alt={name}
+        className="card-img"
+      />
 
-        <div className="card-details">
-          <h3 className="card-title">{name}</h3>
-          <section className="card-reviews">
-            {/* {star} {star} {star} {star} */}
-            <span className="total-reviews">{reviews} Reviews</span>
-          </section>
-          <section className="card-price-rating">
-            <div className="price">€{formatPrice(price)}</div>
-            {rating && <div className="rating">{generateStars(rating)}</div>}
-          </section>
+      <div className="card-details">
+        <h3 className="card-title">{name}</h3>
+        <section className="card-reviews">
+          {/* {star} {star} {star} {star} */}
+          <span className="total-reviews">{reviews} Reviews</span>
+        </section>
+        <section className="card-price-rating">
+          <div className="price">€{formatPrice(price)}</div>
+          {rating ? (
+            <div className="rating">{generateStars(rating)}</div>
+          ) : null}
+        </section>
 
-          <section className="card-addCart-voir">
-            <div
-              className={`add-cart badge ${!active && "disabled"}`}
-              onClick={active ? () => handleAddToCart(product) : undefined}
-            >
-              <FaCartPlus className="bag-icon" />
-              <span className="text-add-to-cart">Ajouter au panier</span>
-            </div>
+        <section className="card-addCart-voir">
+          <div
+            className={`add-cart badge ${!active && "disabled"}`}
+            onClick={active ? handleAddToCart : undefined}
+          >
+            <FaCartPlus className="bag-icon" title="Add to cart" />
+            <span className="text-add-to-cart">Ajouter au panier</span>
+          </div>
 
-            <div>
-              <button
-                onClick={() => setSelectedProduct(product)}
-                className="btn"
-              >
-                Voir
-              </button>
-            </div>
-          </section>
-        </div>
-      </section>
-    </>
+          <div>
+            <button onClick={() => setSelectedProduct(product)} className="btn">
+              Voir
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
   );
 };
 
