@@ -14,7 +14,7 @@ import AuthContext from "../../context/AuthContext";
 import { addComment, deleteAComment, updateComment } from "../../utils/userAPI";
 import CommentCard from "./Comment/CommentCard";
 import { Product } from "../../interfaces/product";
-import AddComment from "./Comment/AddComment";
+import CommentForm from "./Comment/CommentForm";
 import { Comment } from "../../interfaces/comment";
 
 interface ProductsProps {
@@ -239,7 +239,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
 
           <div className="add-comment">
             {selectedCommentToEdit ? (
-              <AddComment
+              <CommentForm
                 isCommentAdd={false}
                 onEditComment={onUpdatedComment}
                 productId={selectedProduct.id}
@@ -247,7 +247,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
                 comment={selectedCommentToEdit || undefined}
               />
             ) : (
-              <AddComment
+              <CommentForm
                 isCommentAdd={true}
                 onAddComment={handleAddComment}
                 productId={selectedProduct.id}

@@ -8,7 +8,7 @@ import {
 import { Comment } from "../../interfaces/comment";
 import "./Profile.css";
 import CommentCard from "../../components/Products/Comment/CommentCard";
-import AddComment from "../../components/Products/Comment/AddComment";
+import CommentForm from "../../components/Products/Comment/CommentForm";
 
 const ProfilePage = () => {
   const { userResponse, isAuthenticated } =
@@ -168,7 +168,7 @@ const ProfilePage = () => {
 
         {selectedComment && (
           <div className="add-comment">
-            <AddComment
+            <CommentForm
               isCommentAdd={false}
               onEditComment={onUpdatedComment}
               comment={selectedComment}

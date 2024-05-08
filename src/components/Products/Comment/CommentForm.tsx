@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Comment } from "../../../interfaces/comment";
-import "./AddComment.css";
+import "./CommentForm.css";
 
-type AddCommentProps = {
+type CommentFormProps = {
   onAddComment?: (content: string, productId: number) => void;
   onEditComment?: (content: string, commentId: number) => void;
   productId?: number | undefined;
@@ -11,7 +11,7 @@ type AddCommentProps = {
   isAuthenticated: boolean;
 };
 
-const AddComment: React.FC<AddCommentProps> = ({
+const CommentForm: React.FC<CommentFormProps> = ({
   onAddComment,
   onEditComment,
   isCommentAdd,
@@ -68,4 +68,4 @@ const AddComment: React.FC<AddCommentProps> = ({
   );
 };
 
-export default AddComment;
+export default CommentForm;
