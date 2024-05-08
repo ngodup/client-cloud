@@ -2,8 +2,11 @@ export interface Comment {
   id?: number;
   content: string;
   createdAt: Date;
-  author?: string;
-  prenom?: string;
+  author?: {
+    id: number;
+    nom: string;
+    prenom: string;
+  };
 }
 
 // export interface  {
@@ -13,18 +16,18 @@ export interface Comment {
 //   // total?: number;
 // }
 
-export interface CommentResponse {
-  id?: number;
-  content: string;
-  createdAt: Date;
-  author?: {
-    id: number;
-    email: string;
-    nom: string;
-    prenom: string;
-  };
-}
+// export interface CommentResponse {
+//   id?: number;
+//   content: string;
+//   createdAt: Date;
+//   author?: {
+//     id: number;
+//     email: string;
+//     nom: string;
+//     prenom: string;
+//   };
+// }
 
 export interface ProductCommentResponse {
-  comments: CommentResponse[];
+  comments: Comment[];
 }

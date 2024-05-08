@@ -1,15 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext, { AuthContextProps } from "../../context/AuthContext";
-import { getUserComments } from "../../utils/userAPI";
+import {
+  deleteAComment,
+  getUserComments,
+  updateComment,
+} from "../../utils/userAPI";
 import { Comment } from "../../interfaces/comment";
 import "./Profile.css";
 import CommentCard from "../../components/Products/Comment/CommentCard";
+import AddComment from "../../components/Products/Comment/AddComment";
 
 const ProfilePage = () => {
-  const { userResponse } = useContext<AuthContextProps>(AuthContext);
+  const { userResponse, isAuthenticated } =
+    useContext<AuthContextProps>(AuthContext);
   const [userComments, setUserComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
 
   const userToken = localStorage.getItem("token");
 
@@ -44,6 +52,55 @@ const ProfilePage = () => {
   }
 
   const { userProfile, email } = userResponse.user;
+
+  // CODE TO EDIT THE COMMENT ON A PRODUCT
+  const editComment = (comment: Comment) => {
+    setSelectedComment(comment);
+  };
+
+  const onUpdatedComment = async (content: string, commentId: number) => {
+    //Call to api
+    const token = localStorage.getItem("token"); // Or however you're storing the token
+    if (!token) {
+      return;
+    }
+    try {
+      await updateComment(commentId, content, token);
+      setUserComments(
+        userComments.map((comment) =>
+          comment.id === commentId ? { ...comment, content } : comment
+        )
+      );
+      setSelectedComment(null);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error editing comment:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
+
+  // CODE TO DELETE THE COMMENT ON A PRODUCT
+  const deleteComment = async (commentId: number) => {
+    const token = localStorage.getItem("token"); // Or however you're storing the token
+    if (!token) {
+      return;
+    }
+    try {
+      await deleteAComment(commentId, token);
+      setUserComments(
+        userComments.filter((comment) => comment.id !== commentId)
+      );
+      setSelectedComment(null);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error deleting comment:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
 
   return (
     <div className="container">
@@ -97,11 +154,27 @@ const ProfilePage = () => {
 
               return (
                 <div key={index}>
-                  <CommentCard comment={commentWithAuthor} />
+                  <CommentCard
+                    comment={commentWithAuthor}
+                    user={userResponse.user}
+                    onEdit={editComment}
+                    onDelete={deleteComment}
+                  />
                 </div>
               );
             })}
           </ul>
+        )}
+
+        {selectedComment && (
+          <div className="add-comment">
+            <AddComment
+              isCommentAdd={false}
+              onEditComment={onUpdatedComment}
+              comment={selectedComment}
+              isAuthenticated={isAuthenticated}
+            />
+          </div>
         )}
         {!loading && !error && userComments.length === 0 && (
           <p>No comments found</p>

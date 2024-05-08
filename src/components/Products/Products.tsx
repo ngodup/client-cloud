@@ -11,25 +11,27 @@ import {
 import "./Products.css";
 import { useAppDispatch, useAppSelector } from "../../store";
 import AuthContext from "../../context/AuthContext";
-import { addComment } from "../../utils/userAPI";
+import { addComment, deleteAComment, updateComment } from "../../utils/userAPI";
 import CommentCard from "./Comment/CommentCard";
 import { Product } from "../../interfaces/product";
 import AddComment from "./Comment/AddComment";
-import { CommentResponse } from "../../interfaces/comment";
+import { Comment } from "../../interfaces/comment";
 
 interface ProductsProps {
-  filteredProducts: Product[];
+  filteredProducts?: Product[];
 }
 
 const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [productComments, setProductComments] = useState<CommentResponse[]>([]);
+  const [productComments, setProductComments] = useState<Comment[]>([]);
 
   // code for Modal cart increment and Decrment Quantity
   const cartItems = useAppSelector((state) => state.carts.items);
   const dispatch = useAppDispatch();
+  const [selectedCommentToEdit, setSelectedCommentToEdit] =
+    useState<Comment | null>(null);
 
-  const { isAuthenticated } = useContext(AuthContext);
+  const { userResponse, isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
     let isMounted = true; // to prevent setting state of an unmounted component
@@ -44,7 +46,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           );
           if (isMounted) {
             // Check if the component is still mounted before setting state
-            const comments: CommentResponse[] = data?.comments;
+            const comments: Comment[] = data?.comments;
 
             setProductComments(comments);
           }
@@ -71,7 +73,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
     return 0;
   }, [cartItems, selectedProduct]);
 
-  if (filteredProducts.length === 0) {
+  if (filteredProducts?.length === 0) {
     return null;
   }
 
@@ -84,12 +86,11 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   };
   // End of the code for Modal cart increment and Decrment Quantity
 
-  //Code for adding comment on the product.
+  //CODE TO FETCH comment on the product.
   const handleAddComment = async (content: string, productId: number) => {
     // const userId = userResponse?.user.id;
     const token = localStorage.getItem("token"); // Or however you're storing the token
     if (!token) {
-      // Handle the case where the token is not available
       return;
     }
     try {
@@ -99,15 +100,60 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
         setProductComments([response, ...productComments]);
       }
     } catch (error) {
-      // Handle the error here
       alert("Error on adding comment on a product successful " + error);
+    }
+  };
+
+  // CODE TO EDIT THE COMMENT ON A PRODUCT
+  const editComment = (comment: Comment) => {
+    setSelectedCommentToEdit(comment);
+  };
+
+  const onUpdatedComment = async (content: string, commentId: number) => {
+    //Call to api
+    const token = localStorage.getItem("token"); // Or however you're storing the token
+    if (!token) {
+      return;
+    }
+    try {
+      await updateComment(commentId, content, token);
+      setProductComments(
+        productComments.map((comment) =>
+          comment.id === commentId ? { ...comment, content } : comment
+        )
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error editing comment:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
+  };
+  // CODE TO DELETE THE COMMENT ON A PRODUCT
+  const deleteComment = async (commentId: number) => {
+    const token = localStorage.getItem("token"); // Or however you're storing the token
+    if (!token) {
+      return;
+    }
+    try {
+      await deleteAComment(commentId, token);
+      setProductComments(
+        productComments.filter((comment) => comment.id !== commentId)
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error deleting comment:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
   };
 
   return (
     <>
       <section className="card-container">
-        {filteredProducts.map((product: Product, index: number) => (
+        {filteredProducts?.map((product: Product, index: number) => (
           <ProductCard
             key={index}
             product={product}
@@ -179,19 +225,35 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           <div>
             {productComments &&
               productComments.length > 0 &&
-              productComments.map((comment: CommentResponse) => (
+              productComments.map((comment: Comment) => (
                 <div key={comment.id}>
-                  <CommentCard comment={comment} />
+                  <CommentCard
+                    comment={comment}
+                    onEdit={editComment}
+                    onDelete={deleteComment}
+                    user={userResponse?.user}
+                  />
                 </div>
               ))}
           </div>
 
           <div className="add-comment">
-            <AddComment
-              onAddComment={handleAddComment}
-              productId={selectedProduct.id}
-              isAuthenticated={isAuthenticated}
-            />
+            {selectedCommentToEdit ? (
+              <AddComment
+                isCommentAdd={true}
+                onAddComment={handleAddComment}
+                productId={selectedProduct.id}
+                isAuthenticated={isAuthenticated}
+              />
+            ) : (
+              <AddComment
+                isCommentAdd={false}
+                onEditComment={onUpdatedComment}
+                productId={selectedProduct.id}
+                isAuthenticated={isAuthenticated}
+                comment={selectedCommentToEdit || undefined}
+              />
+            )}
           </div>
         </CustomModal>
       )}

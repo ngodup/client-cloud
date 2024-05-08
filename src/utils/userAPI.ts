@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UserResponse } from "../interfaces/user";
-import { CommentResponse, Comment } from "../interfaces/comment";
+import { Comment } from "../interfaces/comment";
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
@@ -30,9 +30,26 @@ export const addComment = async (
   productId: number,
   content: string,
   token: string
-): Promise<CommentResponse> => {
+): Promise<Comment> => {
   const response = await axios.post(
     `http://127.0.0.1:8000/api/products/${productId}/comments`,
+    { content: content },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const updateComment = async (
+  commentId: number,
+  content: string,
+  token: string
+): Promise<Comment> => {
+  const response = await axios.patch(
+    `http://127.0.0.1:8000/api/comments/${commentId}`,
     { content: content },
     {
       headers: {
@@ -48,13 +65,13 @@ export const getUserComments = async (
   email: string
 ): Promise<Comment[]> => {
   try {
-    const response = await axios.post(
-      "http://127.0.0.1:8000/api/comments/user",
-      { email: email }, // Include the email parameter in the request body
+    const response = await axios.get(
+      `http://127.0.0.1:8000/api/comments/user?email=${encodeURIComponent(
+        email
+      )}`, // Include the email parameter as a query parameter
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", // Set the Content-Type header
         },
       }
     );
@@ -63,6 +80,21 @@ export const getUserComments = async (
     console.error(error);
     throw error;
   }
+};
+
+export const deleteAComment = async (
+  commentId: number,
+  token: string
+): Promise<void> => {
+  const response = await axios.delete(
+    `http://127.0.0.1:8000/api/comments/${commentId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };
 
 //No need

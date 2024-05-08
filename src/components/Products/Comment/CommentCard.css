@@ -1,17 +1,26 @@
 /* avatar on Comment */
-.comment  {
+.comment-wrapper {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
   background: #ecebeb;
   padding: 20px;
   border-radius: 5px;
 }
 
+.comment  {
+  display: flex;
+  justify-content: left;
+  border-radius: 5px;
+}
+
+.comment-content {
+  margin-top:5px;
+}
+
 .comment-profile {
   float: left;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 3rem;
+  margin-right: 1rem;
   flex-direction: column;
 }
   
