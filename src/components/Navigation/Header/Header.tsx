@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store";
 import AuthContext from "../../../context/AuthContext";
@@ -8,13 +8,11 @@ import { getQuerySelector } from "../../../store/products/selectors";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaUserSlash } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
 import "./Header.css";
 import "react-responsive-modal/styles.css";
-import { ToastContainer, toast } from "react-toastify";
 
-interface HeaderProps {}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header = () => {
   const navigate = useNavigate();
   const { isAuthenticated, userResponse, handleLogout } =
     useContext(AuthContext);
@@ -26,14 +24,17 @@ const Header: React.FC<HeaderProps> = () => {
     (total, item) => total + item.quantity,
     0
   );
+
   const userNameIcon = userResponse?.user?.userProfile?.nom
-    .charAt(0)
+    ?.charAt(0)
     .toUpperCase();
-  const handleSearchInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    dispatch(setQuery(event.target.value));
-  };
+
+  const handleSearchInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(setQuery(event.target.value));
+    },
+    [dispatch]
+  );
 
   const onLogout = () => {
     try {
@@ -75,13 +76,15 @@ const Header: React.FC<HeaderProps> = () => {
               {cartItemsCount > 0 && (
                 <span className="badge cart-count">{cartItemsCount}</span>
               )}
-              <AiOutlineShoppingCart className="nav-icons" />
+              <AiOutlineShoppingCart className="nav-icons" title="Cart" />
             </div>
           </Link>
 
           {isAuthenticated ? (
             <div className="user-icon">
-              <Link to="/profile">{userNameIcon}</Link>
+              <Link to="/profile" title="Profile">
+                {userNameIcon}
+              </Link>
             </div>
           ) : (
             <Link to="/login" className="nav-link">
@@ -90,24 +93,26 @@ const Header: React.FC<HeaderProps> = () => {
           )}
 
           {isAuthenticated && (
-            <>
-              <AiOutlineLogout className="nav-icons" onClick={onLogout} />
-            </>
+            <AiOutlineLogout
+              className="nav-icons"
+              title="Logout"
+              onClick={onLogout}
+            />
           )}
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
         </div>
       </nav>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 };
