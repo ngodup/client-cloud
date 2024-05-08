@@ -292,6 +292,27 @@ input[type=text]:placeholder {
 label {
   text-align: left;
 }
+
+.two-column-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#profile-picture {
+  width: 20vw;
+}
+.column-left,
+.column-right {
+  flex: 1;
+  margin-right: 10px; /* adjust as needed */
+}
+
+.column-right {
+  margin-right: 0;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;

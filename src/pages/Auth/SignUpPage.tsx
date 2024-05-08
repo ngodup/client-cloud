@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./Auth.css";
 
@@ -31,6 +31,8 @@ const SignUpPage = () => {
   });
 
   const [profileImage, setProfileImage] = useState<File | undefined>();
+  const [selectedImage, setSelectedImage] = useState<string | undefined>();
+  const navigate = useNavigate();
   const {
     email,
     password,
@@ -100,10 +102,7 @@ const SignUpPage = () => {
         toast.error(error.response?.data?.message || "Registration failed.");
       } finally {
         // Reset the form fields using the formRef ref
-        const form = formRef.current;
-        if (form) {
-          form.reset();
-        }
+        navigate("/login");
       }
     }
   };
@@ -124,7 +123,10 @@ const SignUpPage = () => {
       files: FileList;
     };
 
-    setProfileImage(target.files[0]);
+    if (target.files && target.files[0]) {
+      setProfileImage(target.files[0]);
+      setSelectedImage(URL.createObjectURL(target.files[0]));
+    }
   };
 
   return (
@@ -133,66 +135,81 @@ const SignUpPage = () => {
         <h2 className="active">Registration for a new User</h2>
 
         <form onSubmit={handleSubmit} ref={formRef}>
-          <div className="row">
-            <div className="field-container">
-              <label htmlFor="email">Email*</label>
-              <input
-                type="email"
-                className="fadeIn second"
-                name="email"
-                placeholder="Email"
-                value={email}
-                onChange={handleInputChange}
-                required
-              />
+          <div className="two-column-row">
+            <div className="column-left">
+              <div className="field-container">
+                <label htmlFor="email">Email*</label>
+                <input
+                  type="email"
+                  className="fadeIn second"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="field-container">
+                <label htmlFor="password">Password*</label>
+                <input
+                  type="password"
+                  className="fadeIn third"
+                  name="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="field-container">
+                <label htmlFor="prenom">First Name*</label>
+                <input
+                  type="text"
+                  className="fadeIn second"
+                  name="prenom"
+                  placeholder="First Name"
+                  value={prenom}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div className="field-container">
+                <label htmlFor="nom">Last Name*</label>
+                <input
+                  type="text"
+                  className="fadeIn second"
+                  name="nom"
+                  placeholder="Last Name"
+                  value={nom}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
             </div>
-            <div className="field-container">
-              <label htmlFor="password">Password*</label>
-              <input
-                type="password"
-                className="fadeIn third"
-                name="password"
-                placeholder="Password"
-                value={password}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-          </div>
-          <div className="field-container">
-            <label htmlFor="photoDeProfil">Profile Picture</label>
-            <input
-              type="file"
-              className="fadeIn second"
-              name="photoDeProfil"
-              accept="image/*"
-              onChange={handleOnProfilePictureChange}
-            />
-          </div>
-          <div className="row">
-            <div className="field-container">
-              <label htmlFor="prenom">First Name*</label>
-              <input
-                type="text"
-                className="fadeIn second"
-                name="prenom"
-                placeholder="First Name"
-                value={prenom}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="field-container">
-              <label htmlFor="nom">Last Name*</label>
-              <input
-                type="text"
-                className="fadeIn second"
-                name="nom"
-                placeholder="Last Name"
-                value={nom}
-                onChange={handleInputChange}
-                required
-              />
+
+            <div className="colomn-right">
+              <label htmlFor="photoDeProfil">Profile Picture</label>
+              <div className="fadeIn first">
+                {selectedImage ? (
+                  <img src={selectedImage} alt="Avatar" id="profile-picture" />
+                ) : (
+                  <img
+                    src="./default-profile.webp"
+                    alt="Avatar"
+                    id="profile-picture"
+                  />
+                )}
+              </div>
+              <div className="field-container">
+                <input
+                  type="file"
+                  className="fadeIn second"
+                  name="photoDeProfil"
+                  accept="image/*"
+                  onChange={handleOnProfilePictureChange}
+                />
+              </div>
             </div>
           </div>
 

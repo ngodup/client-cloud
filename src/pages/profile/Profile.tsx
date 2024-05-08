@@ -106,7 +106,15 @@ const ProfilePage = () => {
     <div className="container">
       <div className="profile">
         <div className="profile-image">
-          <img src="/avatar.jpg" alt="Avatar" id="icon" />
+          {userProfile.photoDeProfil ? (
+            <img
+              src={`http://127.0.0.1:8000/images/profiles/${userProfile.photoDeProfil}`}
+              alt="Avatar"
+              id="icon"
+            />
+          ) : (
+            <img src="/avatar.jpg" alt="Avatar" id="icon" />
+          )}
         </div>
         <div className="profile-user-settings">
           <h1 className="profile-user-name">
