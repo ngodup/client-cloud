@@ -240,18 +240,18 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           <div className="add-comment">
             {selectedCommentToEdit ? (
               <AddComment
-                isCommentAdd={true}
-                onAddComment={handleAddComment}
-                productId={selectedProduct.id}
-                isAuthenticated={isAuthenticated}
-              />
-            ) : (
-              <AddComment
                 isCommentAdd={false}
                 onEditComment={onUpdatedComment}
                 productId={selectedProduct.id}
                 isAuthenticated={isAuthenticated}
                 comment={selectedCommentToEdit || undefined}
+              />
+            ) : (
+              <AddComment
+                isCommentAdd={true}
+                onAddComment={handleAddComment}
+                productId={selectedProduct.id}
+                isAuthenticated={isAuthenticated}
               />
             )}
           </div>
