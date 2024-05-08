@@ -150,6 +150,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
           };
           setProductComments(updatedComments);
         }
+        setSelectedCommentToEdit(null);
       } catch (error) {
         if (error instanceof Error) {
           console.error("Error editing comment:", error.message);

@@ -38,7 +38,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
     } else if (onEditComment && comment && typeof comment.id === "number") {
       onEditComment(content, comment.id);
     }
-
+    comment = undefined;
     setContent("");
   };
 
