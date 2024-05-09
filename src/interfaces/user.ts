@@ -3,7 +3,7 @@ interface Role {
 }
 
 export interface UserProfile {
-  id: number;
+  id?: number;
   prenom: string;
   nom: string;
   phoneNumber?: string;

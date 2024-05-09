@@ -1,0 +1,63 @@
+.two-column-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  #profile-picture {
+    width: 20vw;
+  }
+  .column-left,
+  .column-right {
+    flex: 1;
+    margin-right: 10px; /* adjust as needed */
+  }
+  
+  .column-right {
+    margin-right: 0;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+  }
+  
+  .field-container {
+    flex: 1 0 50%;
+    padding: 0 10px;
+    margin-bottom: 20px;
+  }
+  
+  .field-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .field-container input,
+  .field-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .field-container input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .field-container input[type="submit"]:hover {
+    background-color: #0069d9;
+  }
+  
+  .auth-footer-link {
+    display: flex;
+    justify-content: space-between;
+  }

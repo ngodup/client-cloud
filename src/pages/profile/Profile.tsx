@@ -1,14 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { IoMdCloseCircle } from "react-icons/io";
 import AuthContext, { AuthContextProps } from "../../context/AuthContext";
 import {
   deleteAComment,
   getUserComments,
   updateComment,
 } from "../../utils/userAPI";
-import { Comment } from "../../interfaces/comment";
-import "./Profile.css";
 import CommentCard from "../../components/Products/Comment/CommentCard";
 import CommentForm from "../../components/Products/Comment/CommentForm";
+import CustomModal from "../../components/shared/CustomModal/CustomModal";
+import { Comment } from "../../interfaces/comment";
+import ProfileForm from "../../components/ProfileForm/ProfileForm";
+import { UserProfile } from "../../interfaces/user";
+import "./Profile.css";
 
 const ProfilePage = () => {
   const { userResponse, isAuthenticated } =
@@ -16,6 +22,7 @@ const ProfilePage = () => {
   const [userComments, setUserComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
 
@@ -26,7 +33,7 @@ const ProfilePage = () => {
       return;
     }
 
-    const { email } = userResponse.user;
+    // const { email } = userResponse.user;
 
     const fetchUserComments = async () => {
       setLoading(true);
@@ -52,6 +59,20 @@ const ProfilePage = () => {
   }
 
   const { userProfile, email } = userResponse.user;
+  debugger;
+
+  const userInfo: UserProfile = {
+    prenom: userProfile.prenom,
+    nom: userProfile.nom,
+    dateDeNaissance: userProfile.dateDeNaissance
+      ? new Date(userProfile.dateDeNaissance)
+      : new Date(),
+    phoneNumber: userProfile.phoneNumber,
+    address: userProfile.address,
+    ville: userProfile.ville,
+    codePostal: userProfile.codePostal, // Need to convert to string at server
+    photoDeProfil: userProfile.photoDeProfil,
+  };
 
   // CODE TO EDIT THE COMMENT ON A PRODUCT
   const editComment = (comment: Comment) => {
@@ -102,6 +123,31 @@ const ProfilePage = () => {
     }
   };
 
+  const updateProfile = async (formData: UserProfile) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        toast.success("Registration successful!");
+      } else {
+        toast.error("Registration failed. Please check the server response.");
+      }
+    } catch (error: any) {
+      console.error("Error during registration: ", error);
+      toast.error(error.response?.data?.message || "Registration failed.");
+    } finally {
+      setIsModalOpen(false);
+    }
+  };
+
   return (
     <div className="container">
       <div className="profile">
@@ -113,14 +159,19 @@ const ProfilePage = () => {
               id="icon"
             />
           ) : (
-            <img src="/avatar.jpg" alt="Avatar" id="icon" />
+            <img src="./default-profile.webp" alt="Avatar" id="icon" />
           )}
         </div>
         <div className="profile-user-settings">
           <h1 className="profile-user-name">
             {userProfile.prenom} {userProfile.nom}
           </h1>
-          <button className="btn profile-edit-btn">Editer le profil</button>
+          <button
+            className="btn profile-edit-btn"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Modifier le profil
+          </button>
         </div>
         <div className="profile-stats">
           <ul>
@@ -188,6 +239,32 @@ const ProfilePage = () => {
           <p>No comments found</p>
         )}
       </div>
+      {isModalOpen && (
+        <CustomModal onClose={() => setIsModalOpen(false)} isOpen={isModalOpen}>
+          <IoMdCloseCircle
+            className="close-modal-icon"
+            onClick={() => setIsModalOpen(false)}
+          />
+          <ProfileForm
+            onSubmit={updateProfile}
+            initialValues={userInfo}
+            isEditMode={true}
+          />
+        </CustomModal>
+      )}
+
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
