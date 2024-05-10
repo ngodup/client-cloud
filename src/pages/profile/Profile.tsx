@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { IoMdCloseCircle } from "react-icons/io";
 import AuthContext, { AuthContextProps } from "../../context/AuthContext";
@@ -7,6 +6,7 @@ import {
   deleteAComment,
   getUserComments,
   updateComment,
+  editProfile,
 } from "../../utils/userAPI";
 import CommentCard from "../../components/Products/Comment/CommentCard";
 import CommentForm from "../../components/Products/Comment/CommentForm";
@@ -17,7 +17,7 @@ import { UserProfile } from "../../interfaces/user";
 import "./Profile.css";
 
 const ProfilePage = () => {
-  const { userResponse, isAuthenticated } =
+  const { userResponse, isAuthenticated, updateUserResponse } =
     useContext<AuthContextProps>(AuthContext);
   const [userComments, setUserComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,8 +32,6 @@ const ProfilePage = () => {
     if (!userResponse || !userResponse.user.userProfile) {
       return;
     }
-
-    // const { email } = userResponse.user;
 
     const fetchUserComments = async () => {
       setLoading(true);
@@ -59,7 +57,7 @@ const ProfilePage = () => {
   }
 
   const { userProfile, email } = userResponse.user;
-  debugger;
+  const profileId = userProfile.id as number;
 
   const userInfo: UserProfile = {
     prenom: userProfile.prenom,
@@ -124,27 +122,20 @@ const ProfilePage = () => {
   };
 
   const updateProfile = async (formData: UserProfile) => {
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/register",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+    const token = localStorage.getItem("token"); // Or however you're storing the token
+    if (!token) {
+      return;
+    } else {
+      try {
+        const response = await editProfile(profileId, formData, token);
+        // Update userResponse state in AuthContext
+        updateUserResponse({
+          user: {
+            ...userResponse.user,
+            userProfile: response,
           },
-        }
-      );
-
-      if (response.status === 201 || response.status === 200) {
-        toast.success("Registration successful!");
-      } else {
-        toast.error("Registration failed. Please check the server response.");
-      }
-    } catch (error: any) {
-      console.error("Error during registration: ", error);
-      toast.error(error.response?.data?.message || "Registration failed.");
-    } finally {
-      setIsModalOpen(false);
+        });
+      } catch (error) {}
     }
   };
 

@@ -9,6 +9,7 @@ export interface AuthContextProps {
   error: string | null;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => void;
+  updateUserResponse: (updatedUserResponse: UserResponse) => void;
 }
 
 export const defaultContextValue: AuthContextProps = {
@@ -18,6 +19,7 @@ export const defaultContextValue: AuthContextProps = {
   error: null,
   handleLogin: async () => {},
   handleLogout: () => {},
+  updateUserResponse: () => {},
 };
 
 interface AuthProviderProps {
@@ -61,6 +63,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const updateUserResponse = (updatedUserResponse: UserResponse) => {
+    setUserResponse(updatedUserResponse);
+  };
+
   const handleLogout = () => {
     setUserResponse(undefined);
     setIsAuthenticated(false);
@@ -77,6 +83,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         error,
         handleLogin,
         handleLogout,
+        updateUserResponse,
       }}
     >
       {children}

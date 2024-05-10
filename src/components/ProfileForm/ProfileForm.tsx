@@ -65,6 +65,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
     if (formRef.current) {
       const formData = new FormData();
+
       if (!isEditMode) {
         formData.append("email", email);
         formData.append("password", password);
@@ -72,32 +73,46 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 
       formData.append("prenom", prenom);
       formData.append("nom", nom);
-
       if (dateDeNaissance) {
-        formData.append("dateDeNaissance", dateDeNaissance.toISOString());
+        const date =
+          dateDeNaissance instanceof Date
+            ? dateDeNaissance
+            : new Date(dateDeNaissance);
+        formData.append("dateDeNaissance", date.toISOString().split("T")[0]);
       }
-
-      if (phoneNumber) {
-        formData.append("phoneNumber", phoneNumber);
-      }
-
-      if (address) {
-        formData.append("address", address);
-      }
-
-      if (ville) {
-        formData.append("ville", ville);
-      }
-
-      if (codePostal) {
-        formData.append("codePostal", codePostal);
-      }
+      formData.append("phoneNumber", phoneNumber || "");
+      formData.append("address", address || "");
+      formData.append("ville", ville || "");
+      formData.append("codePostal", codePostal || "");
 
       if (profileImage) {
         formData.append("photoDeProfil", profileImage);
       }
 
-      onSubmit(state);
+      const profileInfo: UserProfile = {
+        prenom: formData.get("prenom") as string,
+        nom: formData.get("nom") as string,
+        dateDeNaissance: new Date(formData.get("dateDeNaissance") as string),
+        phoneNumber: formData.get("phoneNumber") as string,
+        address: formData.get("address") as string,
+        ville: formData.get("ville") as string,
+        codePostal: formData.get("codePostal") as string,
+        photoDeProfil: formData.get("photoDeProfil") as File,
+      };
+
+      if (initialValues) {
+        onSubmit(profileInfo);
+      } else {
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        const newUser: ProfileFormState = {
+          ...profileInfo,
+          email,
+          password,
+        };
+        onSubmit(newUser);
+      }
     }
   };
 
@@ -219,7 +234,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               type="date"
               className="fadeIn second"
               name="dateDeNaissance"
-              value={dateDeNaissance?.toISOString().split("T")[0]}
+              value={
+                (dateDeNaissance instanceof Date
+                  ? dateDeNaissance
+                  : new Date(dateDeNaissance)
+                )
+                  .toISOString()
+                  .split("T")[0]
+              }
               onChange={handleInputChange}
             />
           </div>

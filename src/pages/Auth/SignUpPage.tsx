@@ -8,7 +8,7 @@ import { UserProfile } from "../../interfaces/user";
 const SignUpPage = () => {
   const navigate = useNavigate();
 
-  const registerUser = async (formData: ProfileFormState | UserProfile) => {
+  const registerUser = async (formData: UserProfile | ProfileFormState) => {
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/register",
@@ -19,7 +19,6 @@ const SignUpPage = () => {
           },
         }
       );
-
       if (response.status === 201 || response.status === 200) {
         toast.success("Registration successful!");
       } else {

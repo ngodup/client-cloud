@@ -8,10 +8,10 @@ export interface UserProfile {
   nom: string;
   phoneNumber?: string;
   address?: string;
-  dateDeNaissance?: Date;
+  dateDeNaissance: Date;
   ville?: string;
   codePostal?: string;
-  photoDeProfil?: string;
+  photoDeProfil?: File | string;
 }
 
 export interface User {

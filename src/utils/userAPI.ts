@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserResponse } from "../interfaces/user";
+import { UserProfile, UserResponse } from "../interfaces/user";
 import { Comment } from "../interfaces/comment";
 
 const api = axios.create({
@@ -23,6 +23,23 @@ export const getUserInfo = async (token: string): Promise<UserResponse> => {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response.data;
+};
+
+export const editProfile = async (
+  userProfileId: number,
+  formData: UserProfile,
+  token: string
+): Promise<UserProfile> => {
+  const response = await axios.patch(
+    `http://127.0.0.1:8000/api/user-profiles/${userProfileId}`,
+    formData, // here
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };
 
