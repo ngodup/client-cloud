@@ -129,6 +129,7 @@ const ProfilePage = () => {
       try {
         const response = await editProfile(profileId, formData, token);
         // Update userResponse state in AuthContext
+        setIsModalOpen(false);
         updateUserResponse({
           user: {
             ...userResponse.user,

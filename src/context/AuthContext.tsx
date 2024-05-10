@@ -71,6 +71,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUserResponse(undefined);
     setIsAuthenticated(false);
     setToken(null);
+    setError(null);
     localStorage.removeItem("token");
   };
 

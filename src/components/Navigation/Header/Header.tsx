@@ -1,14 +1,14 @@
 import React, { useContext, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../store";
-import AuthContext from "../../../context/AuthContext";
-import { useDispatch } from "react-redux";
-import { setQuery } from "../../../store/products/products-slice";
-import { getQuerySelector } from "../../../store/products/selectors";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaUserSlash } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../store";
+import AuthContext from "../../../context/AuthContext";
+import { setQuery } from "../../../store/products/products-slice";
+import { getQuerySelector } from "../../../store/products/selectors";
 import "./Header.css";
 import "react-responsive-modal/styles.css";
 
