@@ -30,7 +30,6 @@ function Home() {
   };
   //  ------------ Button Filtering -----------
   const handleRecommendedClick = (value: string) => {
-    debugger;
     dispatch(setSelectedCategory(value));
   };
   // Directly pass filteredProducts to the Products component
