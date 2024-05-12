@@ -21,16 +21,6 @@ const Recommended: React.FC<RecommendedProps> = ({
           />
           <Button
             onClickHandler={handleRecommendedClick}
-            value="végétarien"
-            title="Végétarien"
-          />
-          <Button
-            onClickHandler={handleRecommendedClick}
-            value="non-végétarien"
-            title="Non végétarien"
-          />
-          <Button
-            onClickHandler={handleRecommendedClick}
             value="petit-déjeuner"
             title="Petit-déjeuner"
           />

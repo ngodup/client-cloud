@@ -8,6 +8,7 @@ import dummyData from "../../db/data"; // dummy data
 interface ProductsState {
   query: string;
   selectedCategory: string | null;
+  priceRange: { min: number; max: number } | null;
   products: any[]; // Replace 'any' with the appropriate type for your products
   status: "idle" | "loading" | "failed";
   error: string | null;
@@ -16,6 +17,7 @@ interface ProductsState {
 const initialState: ProductsState = {
   query: "",
   selectedCategory: null,
+  priceRange: null,
   products: [],
   // products: dummyData,
   status: "idle",
@@ -45,6 +47,12 @@ export const productsSlice = createSlice({
     setSelectedCategory: (state, action: PayloadAction<string | null>) => {
       state.selectedCategory = action.payload;
     },
+    setPriceRange: (
+      state,
+      action: PayloadAction<{ min: number; max: number } | null>
+    ) => {
+      state.priceRange = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -62,6 +70,7 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { setQuery, setSelectedCategory } = productsSlice.actions;
+export const { setQuery, setSelectedCategory, setPriceRange } =
+  productsSlice.actions;
 
 export default productsSlice.reducer;

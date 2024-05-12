@@ -12,7 +12,7 @@ const Prix: React.FC<PrixPros> = ({ handleRadioChange }) => {
       <div>
         <h2 className="sidebar-title price-title">Prix</h2>
 
-        <label className="sidebar-label-container">
+        {/* <label className="sidebar-label-container">
           <input
             onChange={handleRadioChange}
             type="radio"
@@ -20,33 +20,33 @@ const Prix: React.FC<PrixPros> = ({ handleRadioChange }) => {
             name="prix"
           />
           <span className="checkmark"></span>Tout
-        </label>
+        </label> */}
 
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value={5}
+          value={0}
           title="$0 - 5"
           name="prix"
         />
 
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value={10}
-          title="$5 - $10"
+          value={6}
+          title="$6 - $10"
+          name="prix"
+        />
+
+        <CustomRadioButton
+          handleRadioChange={handleRadioChange}
+          value={11}
+          title="$11 - $15"
           name="prix"
         />
 
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
           value={15}
-          title="$15 - $20"
-          name="prix"
-        />
-
-        <CustomRadioButton
-          handleRadioChange={handleRadioChange}
-          value={20}
-          title="Over $20"
+          title="Over $15"
           name="prix"
         />
       </div>
