@@ -27,6 +27,7 @@ const Contact = () => {
           height="450"
           style={{ border: 0 }}
           loading="lazy"
+          title="map"
         />
       </div>
       <div className="container">

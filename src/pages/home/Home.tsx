@@ -14,8 +14,6 @@ function Home() {
   const filteredProducts = useAppSelector(getFilteredProducts);
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    debugger;
-
     const value = event.target.value;
     const numberValue = parseFloat(value);
     if (isNaN(numberValue) || !isFinite(numberValue)) {
@@ -38,7 +36,10 @@ function Home() {
   // Directly pass filteredProducts to the Products component
   return (
     <>
-      <Sidebar handleRadioChange={handleRadioChange} />
+      <div className="hidden-on-mobile">
+        <Sidebar handleRadioChange={handleRadioChange} />
+      </div>
+
       <Recommended handleRecommendedClick={handleRecommendedClick} />
       <Products filteredProducts={filteredProducts} />
     </>
