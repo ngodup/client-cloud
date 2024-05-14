@@ -8,23 +8,13 @@
 .card {
   margin: 20px;
   border: 2px solid #ededed;
-  padding: 20px;
+  padding: 1em;
   cursor: pointer;
-  flex: 1 0 calc(33.333% - 40px);
+  max-width: 300px; /* This will prevent the card from becoming too large */
+  flex: 1 1 300px;
  /* This will make each card take up about 1/3 of the row, minus 40px for the margins */
 }
-@media (max-width: 768px) {
-  .card {
-      flex: 1 0 calc(50% - 40px);
-     /* On screens smaller than 768px, each card will take up about 1/2 of the row */
- }
-}
-@media (max-width: 480px) {
-  .card {
-      flex: 1 0 100%;
-     /* On screens smaller than 480px, each card will take up the full width of the row */
- }
-}
+
 .card-img {
   max-width: 100%;
  /* This will make the image take up no more than the full width of its container */
