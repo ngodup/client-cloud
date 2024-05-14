@@ -30,7 +30,7 @@ const Contact = () => {
           title="map"
         />
       </div>
-      <div className="container">
+      <div className="contact-container">
         <h3 className="text-center" style={{ marginTop: "2rem" }}>
           Contactez-nous
         </h3>

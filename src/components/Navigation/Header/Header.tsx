@@ -1,10 +1,12 @@
-import React, { useContext, useCallback } from "react";
+import React, { useContext, useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { FaUserSlash } from "react-icons/fa";
 import { AiOutlineLogout } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { AiOutlineMenu } from "react-icons/ai";
+import { MdOutlineFoodBank } from "react-icons/md";
 import { useAppSelector } from "../../../store";
 import AuthContext from "../../../context/AuthContext";
 import { setQuery } from "../../../store/products/products-slice";
@@ -19,6 +21,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const cartItems = useAppSelector((state) => state.carts.items);
   const query = useAppSelector(getQuerySelector);
+
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   //Hide search in all page except home
   const currentPath = window.location.pathname;
@@ -49,60 +53,100 @@ const Header = () => {
     }
   };
 
+  const onHandleMobileMenu = () => {
+    setMenuOpen(true);
+    console.log(isMenuOpen);
+  };
   return (
     <>
       <nav>
         <div className="nav-container">
-          {currentPath === "/" && (
-            <input
-              className="search-input"
-              type="text"
-              onChange={handleSearchInputChange}
-              value={query}
-              placeholder="Rechercher des menus alimentaires."
-            />
-          )}
-        </div>
-        <div className="link-container">
-          <Link to="/" className="nav-link">
-            Accueil
-          </Link>
+          <MdOutlineFoodBank size={60} color="#F65F" />
+          <div className="search-container">
+            {currentPath === "/" && (
+              <input
+                className="search-input"
+                type="text"
+                onChange={handleSearchInputChange}
+                value={query}
+                placeholder="Rechercher des menus alimentaires."
+              />
+            )}
+          </div>
 
-          <Link to="/gallery" className="nav-link">
-            Galerie
-          </Link>
+          <AiOutlineMenu
+            onClick={onHandleMobileMenu}
+            className="hamburger-icon"
+            size={30}
+          />
 
-          <Link to="/contact" className="nav-link">
-            Contact
-          </Link>
-
-          <Link to="/cart" className="nav-link cart-link">
-            <div className="icon-badge-container">
-              {cartItemsCount > 0 && (
-                <span className="badge cart-count">{cartItemsCount}</span>
-              )}
-              <AiOutlineShoppingCart className="nav-icons" title="Cart" />
-            </div>
-          </Link>
-
-          {isAuthenticated ? (
-            <div className="user-icon">
-              <Link to="/profile" title="Profile">
-                {userNameIcon}
+          {isMenuOpen ? (
+            <div className={`menu-items ${isMenuOpen ? "show" : ""}`}>
+              <Link
+                to="/"
+                className="menu-item"
+                onClick={() => setMenuOpen(false)}
+              >
+                Accueil
+              </Link>
+              <Link
+                to="/gallery"
+                className="menu-item"
+                onClick={() => setMenuOpen(false)}
+              >
+                Galerie
+              </Link>
+              <Link
+                to="/contact"
+                className="menu-item"
+                onClick={() => setMenuOpen(false)}
+              >
+                Contact
               </Link>
             </div>
           ) : (
-            <Link to="/login" className="nav-link">
-              <FaUserSlash className="nav-icons" />
-            </Link>
-          )}
+            <div className="link-container">
+              <Link to="/" className="nav-link">
+                Accueil
+              </Link>
 
-          {isAuthenticated && (
-            <AiOutlineLogout
-              className="nav-icons"
-              title="Logout"
-              onClick={onLogout}
-            />
+              <Link to="/gallery" className="nav-link">
+                Galerie
+              </Link>
+
+              <Link to="/contact" className="nav-link">
+                Contact
+              </Link>
+
+              <Link to="/cart" className="nav-link cart-link">
+                <div className="icon-badge-container">
+                  {cartItemsCount > 0 && (
+                    <span className="badge cart-count">{cartItemsCount}</span>
+                  )}
+                  <AiOutlineShoppingCart className="nav-icons" title="Cart" />
+                </div>
+              </Link>
+
+              {isAuthenticated ? (
+                <div className="user-icon">
+                  <Link to="/profile" title="Profile">
+                    {userNameIcon}
+                  </Link>
+                </div>
+              ) : (
+                <Link to="/login" className="nav-link">
+                  <FaUserSlash className="nav-icons" />
+                </Link>
+              )}
+
+              {isAuthenticated && (
+                <AiOutlineLogout
+                  className="nav-icons"
+                  title="Logout"
+                  onClick={onLogout}
+                />
+              )}
+            </div>
           )}
         </div>
       </nav>
