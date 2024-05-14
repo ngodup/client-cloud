@@ -20,6 +20,9 @@ const Header = () => {
   const cartItems = useAppSelector((state) => state.carts.items);
   const query = useAppSelector(getQuerySelector);
 
+  //Hide search in all page except home
+  const currentPath = window.location.pathname;
+
   const cartItemsCount = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
@@ -50,13 +53,15 @@ const Header = () => {
     <>
       <nav>
         <div className="nav-container">
-          <input
-            className="search-input"
-            type="text"
-            onChange={handleSearchInputChange}
-            value={query}
-            placeholder="Rechercher des menus alimentaires."
-          />
+          {currentPath === "/" && (
+            <input
+              className="search-input"
+              type="text"
+              onChange={handleSearchInputChange}
+              value={query}
+              placeholder="Rechercher des menus alimentaires."
+            />
+          )}
         </div>
         <div className="link-container">
           <Link to="/" className="nav-link">

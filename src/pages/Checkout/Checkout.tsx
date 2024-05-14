@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { Product } from "../../interfaces/product";
 import AuthContext from "../../context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -29,6 +30,9 @@ const Checkout: React.FC<CheckoutProps> = () => {
           <p className="card-title">
             Veuillez d'abord vous connecter pour acheter les produits
             alimentaires.
+            <Link to="/login" className="nav-link">
+              Se connecter
+            </Link>
           </p>
         </div>
       </div>

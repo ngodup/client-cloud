@@ -84,9 +84,16 @@
     background-color: var(--primary-color);
     border-radius: 10px;
     width: 50vw;
+    max-width: 90%;
   }
   
   .checkIn-no-container .card-title {
     color: var(--light-color);
   }
   
+  .nav-link {
+    background: var(--light-color);
+    color: var(--primary-color);
+    padding: 10px;
+    border-radius: 5px;
+}
