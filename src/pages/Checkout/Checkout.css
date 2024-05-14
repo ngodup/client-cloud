@@ -68,3 +68,25 @@
     color: #666;
   }
   
+
+  .checkIn-no-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .checkIn-no-container .card {
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    width: 50vw;
+  }
+  
+  .checkIn-no-container .card-title {
+    color: var(--light-color);
+  }
+  

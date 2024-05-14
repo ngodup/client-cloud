@@ -8,6 +8,7 @@ import {
   setSelectedCategory,
   setPriceRange,
 } from "../../store/products/products-slice";
+import "./Home.css";
 
 function Home() {
   const dispatch = useAppDispatch();
@@ -34,14 +35,15 @@ function Home() {
   };
   // Directly pass filteredProducts to the Products component
   return (
-    <>
-      <div className="hidden-on-mobile">
+    <div className="container">
+      <div className="sidebar-container">
         <Sidebar handleRadioChange={handleRadioChange} />
       </div>
-
-      <Recommended handleRecommendedClick={handleRecommendedClick} />
-      <Products filteredProducts={filteredProducts} />
-    </>
+      <div className="main-content">
+        <Recommended handleRecommendedClick={handleRecommendedClick} />
+        <Products filteredProducts={filteredProducts} />
+      </div>
+    </div>
   );
 }
 

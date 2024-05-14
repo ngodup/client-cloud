@@ -60,8 +60,3 @@ li {
   background-color: #e10038;
 }
 
-@media (max-width: 1000px) {
-  .hidden-on-mobile {
-    display: none;
-  }
-}

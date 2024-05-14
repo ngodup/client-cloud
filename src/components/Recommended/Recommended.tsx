@@ -11,7 +11,7 @@ const Recommended: React.FC<RecommendedProps> = ({
 }) => {
   return (
     <>
-      <div>
+      <div className="recommended-container">
         <h2 className="recommended-title">Recommandé</h2>
         <div className="recommended-flex">
           <Button

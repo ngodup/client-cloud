@@ -24,8 +24,13 @@ const Checkout: React.FC<CheckoutProps> = () => {
 
   if (!userResponse || !token) {
     return (
-      <div>
-        <h3>Please login first to purchase the food items</h3>
+      <div className="checkIn-no-container">
+        <div className="card">
+          <p className="card-title">
+            Veuillez d'abord vous connecter pour acheter les produits
+            alimentaires.
+          </p>
+        </div>
       </div>
     );
   }

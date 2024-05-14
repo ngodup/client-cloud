@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+  }
+  
+  .sidebar-container {
+    flex: 0 0 15%; /* Set the sidebar width to 15% */
+  }
+  
+  .main-content {
+    flex: 0 0 75%; /* Set the main content width to 75% */
+    padding: 1.5em;
+  }
+  
+  /* Media query to hide the sidebar on mobile and tablet */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column; /* Change to a column layout on smaller screens */
+    }
+  
+    .sidebar-container {
+      display: none; /* Hide the sidebar */
+    }
+  
+    .main-content {
+      flex: 1; /* Expand the main content to fill the available width */
+    }
+  }
+
+  
