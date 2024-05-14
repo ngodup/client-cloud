@@ -74,12 +74,6 @@ const Header = () => {
             )}
           </div>
 
-          <AiOutlineMenu
-            onClick={onHandleMobileMenu}
-            className="hamburger-icon"
-            size={30}
-          />
-
           {isMenuOpen ? (
             <div className={`menu-items ${isMenuOpen ? "show" : ""}`}>
               <Link
@@ -117,37 +111,41 @@ const Header = () => {
               <Link to="/contact" className="nav-link">
                 Contact
               </Link>
-
-              <Link to="/cart" className="nav-link cart-link">
-                <div className="icon-badge-container">
-                  {cartItemsCount > 0 && (
-                    <span className="badge cart-count">{cartItemsCount}</span>
-                  )}
-                  <AiOutlineShoppingCart className="nav-icons" title="Cart" />
-                </div>
-              </Link>
-
-              {isAuthenticated ? (
-                <div className="user-icon">
-                  <Link to="/profile" title="Profile">
-                    {userNameIcon}
-                  </Link>
-                </div>
-              ) : (
-                <Link to="/login" className="nav-link">
-                  <FaUserSlash className="nav-icons" />
-                </Link>
-              )}
-
-              {isAuthenticated && (
-                <AiOutlineLogout
-                  className="nav-icons"
-                  title="Logout"
-                  onClick={onLogout}
-                />
-              )}
             </div>
           )}
+
+          <Link to="/cart" className="nav-link cart-link">
+            <div className="icon-badge-container">
+              {cartItemsCount > 0 && (
+                <span className="badge cart-count">{cartItemsCount}</span>
+              )}
+              <AiOutlineShoppingCart className="nav-icons" title="Cart" />
+            </div>
+          </Link>
+          {isAuthenticated ? (
+            <div className="user-icon">
+              <Link to="/profile" title="Profile">
+                {userNameIcon}
+              </Link>
+            </div>
+          ) : (
+            <Link to="/login" className="nav-link">
+              <FaUserSlash className="nav-icons" />
+            </Link>
+          )}
+
+          {isAuthenticated && (
+            <AiOutlineLogout
+              className="nav-icons"
+              title="Logout"
+              onClick={onLogout}
+            />
+          )}
+          <AiOutlineMenu
+            onClick={onHandleMobileMenu}
+            className="hamburger-icon"
+            size={30}
+          />
         </div>
       </nav>
       <ToastContainer
