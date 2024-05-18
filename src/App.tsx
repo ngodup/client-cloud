@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Checkout from "./pages/Checkout/Checkout";
 import { useAppDispatch } from "./store";
 import { fetchProducts } from "./store/products/products-slice";
