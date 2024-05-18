@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Checkout from "./pages/Checkout/Checkout";
 import { useAppDispatch } from "./store";
 import { fetchProducts } from "./store/products/products-slice";
@@ -10,6 +15,7 @@ import Gallery from "./pages/gallery/Gallery";
 import LoginPage from "./pages/Auth/LoginPage";
 import SignUpPage from "./pages/Auth/SignUpPage";
 import ProfilePage from "./pages/profile/Profile";
+import NotFound from "./pages/not-found/NotFound";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -30,6 +36,7 @@ function App() {
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
