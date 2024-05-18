@@ -158,12 +158,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                   />
                 </div>
                 <div className="field-container">
-                  <label htmlFor="password">Password*</label>
+                  <label htmlFor="password">Mot de passe*</label>
                   <input
                     type="password"
                     className="fadeIn third"
                     name="password"
-                    placeholder="Password"
+                    placeholder="Mot de passe"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -172,7 +172,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               </>
             )}
             <div className="field-container">
-              <label htmlFor="prenom">First Name*</label>
+              <label htmlFor="prenom">Prénom*</label>
               <input
                 type="text"
                 className="fadeIn second"
@@ -185,7 +185,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             </div>
 
             <div className="field-container">
-              <label htmlFor="nom">Last Name*</label>
+              <label htmlFor="nom">Nom*</label>
               <input
                 type="text"
                 className="fadeIn second"
@@ -199,7 +199,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           </div>
 
           <div className="colomn-right">
-            <label htmlFor="photoDeProfil">Profile Picture</label>
+            <label htmlFor="photoDeProfil">Profil de l'image</label>
             <div className="fadeIn first">
               {selectedImage ? (
                 <img src={selectedImage} alt="Avatar" id="profile-picture" />
@@ -216,20 +216,26 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               )}
             </div>
             <div className="field-container">
+              <label htmlFor="my-file-input" className="custom-file-label-file">
+                <span className="custom-file-text">Choisir un fichier</span>
+                <span className="custom-file-icon">➕</span>
+              </label>
               <input
                 type="file"
-                className="fadeIn second"
+                className="fadeIn second profle-Input"
+                id="my-file-input"
                 name="photoDeProfil"
                 accept="image/*"
                 onChange={handleOnProfilePictureChange}
               />
+              {/* <span className="custom-file-name">Pas de fichier choisi</span> */}
             </div>
           </div>
         </div>
 
         <div className="row">
           <div className="field-container">
-            <label htmlFor="dateDeNaissance">Date of Birth</label>
+            <label htmlFor="dateDeNaissance">Date de naissance</label>
             <input
               type="date"
               className="fadeIn second"
@@ -246,7 +252,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             />
           </div>
           <div className="field-container">
-            <label htmlFor="phoneNumber">Phone Number</label>
+            <label htmlFor="phoneNumber">Numéro de téléphone</label>
             <input
               type="tel"
               className="fadeIn second"
@@ -258,19 +264,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           </div>
         </div>
         <div className="field-container">
-          <label htmlFor="address">Address</label>
+          <label htmlFor="address">Adress</label>
           <textarea
             className="fadeIn second"
             rows={3}
             name="address"
-            placeholder="Address"
+            placeholder="Adress"
             value={address}
             onChange={handleInputChange}
           />
         </div>
         <div className="row">
           <div className="field-container">
-            <label htmlFor="ville">City</label>
+            <label htmlFor="ville">Ville</label>
             <input
               type="text"
               className="fadeIn second"
@@ -281,12 +287,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             />
           </div>
           <div className="field-container">
-            <label htmlFor="codePostal">Postal Code</label>
+            <label htmlFor="codePostal">Code postal</label>
             <input
               type="text"
               className="fadeIn second"
               name="codePostal"
-              placeholder="Postal Code"
+              placeholder="Code postal"
               value={codePostal}
               onChange={handleInputChange}
               pattern="[0-9]{5}"
@@ -295,7 +301,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           </div>
         </div>
 
-        <input type="submit" className="fadeIn fourth" value="Sign Up" />
+        <input type="submit" className="fadeIn fourth" value="S'inscrire" />
       </form>
     </>
   );

@@ -17,7 +17,7 @@
     background-color: white;
     padding: 20px;
     border-radius: 4px;
-    max-height: 80vh; 
+    /* max-height: 80vh;  */
     max-width: 900px;/* Set a maximum height for the modal content */
     overflow-y: auto; /* Add a vertical scrollbar if the content exceeds the maximum height */
   }

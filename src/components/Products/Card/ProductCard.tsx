@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <span className="total-reviews">{reviews} Reviews</span>
         </section>
         <section className="card-price-rating">
-          <div className="price">€{formatPrice(price)}</div>
+          <div className="price">{formatPrice(price)}</div>
           {rating ? (
             <div className="rating">{generateStars(rating)}</div>
           ) : null}

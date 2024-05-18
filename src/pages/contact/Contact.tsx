@@ -47,7 +47,7 @@ const Contact = () => {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Nom"
               value={name}
               onChange={(event) => setName(event.target.value)}
               required

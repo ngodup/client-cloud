@@ -61,3 +61,13 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .profle-Input {
+    display: none;
+  }
+
+  .custom-file-label-file {
+    padding: auto;
+    background-color: var(--primary-color);
+    color: var(--ligh-color)
+  }

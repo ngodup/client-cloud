@@ -11,17 +11,6 @@ const Typesrepas: React.FC<TypesrepasProps> = ({ handleRadioChange }) => {
     <>
       <div>
         <h2 className="sidebar-title repas-title">Type de repas</h2>
-        <label className="sidebar-label-container">
-          <input
-            onChange={handleRadioChange}
-            type="radio"
-            value=""
-            name="repasType"
-          />
-          <span className="checkmark"></span>
-          Tous les menus
-        </label>
-
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
           value="végétarien"

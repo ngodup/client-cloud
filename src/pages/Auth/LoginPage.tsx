@@ -43,7 +43,7 @@ const LoginPage = () => {
   return (
     <div className="wrapper fadeInDown">
       <div id="formContent">
-        <h2 className="active"> Sign In </h2>
+        <h2 className="active"> SE CONNECTER </h2>
 
         <div className="fadeIn first">
           <img src="/avatar.jpg" alt="Avatar" id="icon" />
@@ -67,12 +67,16 @@ const LoginPage = () => {
             id="password"
             className="fadeIn third"
             name="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
             value={password}
             onChange={handleInputChange}
             required
           />
-          <input type="submit" className="fadeIn fourth btn" value="Log In" />
+          <input
+            type="submit"
+            className="fadeIn fourth btn"
+            value="Se connecter"
+          />
         </form>
 
         <div id="formFooter">

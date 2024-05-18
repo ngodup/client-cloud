@@ -61,7 +61,7 @@ const Checkout: React.FC<CheckoutProps> = () => {
   };
 
   return (
-    <div className="container">
+    <div className="checkout-container">
       {cartItems.length === 0 && (
         <div className="empty-cart">
           <h5>Votre panier est vide</h5>

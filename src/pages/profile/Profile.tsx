@@ -168,7 +168,7 @@ const ProfilePage = () => {
         <div className="profile-stats">
           <ul>
             <li>
-              <span className="profile-stat-count">Phone Number : </span>{" "}
+              <span className="profile-stat-count">Numéro de téléphone : </span>{" "}
               {userProfile.phoneNumber}
             </li>
             <li>

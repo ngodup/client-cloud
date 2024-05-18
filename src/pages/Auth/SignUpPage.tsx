@@ -35,7 +35,7 @@ const SignUpPage = () => {
   return (
     <div className="wrapper fadeInDown">
       <div id="form-signup-wrapper">
-        <h2 className="active">Registration for a new User</h2>
+        <h2 className="active">ENREGISTREMENT D'UN NOUVEL UTILISATEUR</h2>
         <ProfileForm onSubmit={registerUser} />
         <div>
           {" "}
