@@ -30,6 +30,7 @@ export const getFilteredProducts = createSelector(
         propertiesToCheck.some(
           (property) =>
             product[property] !== undefined &&
+            product[property] !== null &&
             product[property].toString().toLowerCase() ===
               selectedCategoryLowerCase
         )

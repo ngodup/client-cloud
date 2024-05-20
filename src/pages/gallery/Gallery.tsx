@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import CustomModal from "../../components/shared/CustomModal/CustomModal";
+import { IoMdCloseCircle } from "react-icons/io";
 import "./Gallery.css";
 
 interface ItemData {
@@ -8,65 +10,87 @@ interface ItemData {
 
 const itemData: ItemData[] = [
   {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
+    img: "hamburger.jpg",
     title: "Burger",
   },
   {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
+    img: "salchipapas.jpg",
+    title: "Salchipapa",
   },
   {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
+    img: "side-dish.jpg",
+    title: "Burger",
   },
   {
-    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-    title: "Hats",
+    img: "tibetan-tsampa.jpg",
+    title: "Tsampa",
   },
   {
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-    title: "Honey",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1516802273409-68526ee1bdd6",
-    title: "Basketball",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1518756131217-31eb79b20e8f",
+    img: "food.jpg",
     title: "Fern",
   },
   {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
+    img: "soba.jpg",
+    title: "Soba",
   },
   {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
+    img: "sushi.jpg",
+    title: "Sushi",
   },
   {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
+    img: "pizza.jpg",
+    title: "Pizza",
   },
   {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
+    img: "lasagna.jpg",
+    title: "Lasagna",
+  },
+  {
+    img: "breakfast.jpg",
+    title: "Breakfast",
+  },
+  {
+    img: "panipuri.jpg",
+    title: "Panipuri",
+  },
+  {
+    img: "creme-caramel.jpg",
+    title: "Creme caramel",
   },
 ];
 
 const Gallery: React.FC = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <div className="image-grid">
         {itemData.map((item) => (
-          <div key={item.img}>
+          <div
+            key={item.img}
+            role="button"
+            onClick={() => handleImageClick(item.img)}
+          >
             <img src={item.img} alt={item.title} loading="lazy" />
           </div>
         ))}
       </div>
+
+      {selectedImage && isModalOpen && (
+        <CustomModal onClose={() => setIsModalOpen(false)} isOpen={isModalOpen}>
+          <IoMdCloseCircle
+            className="close-modal-icon"
+            onClick={() => setSelectedImage(null)}
+          />
+          <img src={selectedImage} alt="Selected gallery" />
+        </CustomModal>
+      )}
     </>
   );
 };
