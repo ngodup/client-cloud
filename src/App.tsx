@@ -11,12 +11,20 @@ import LoginPage from "./pages/Auth/LoginPage";
 import SignUpPage from "./pages/Auth/SignUpPage";
 import ProfilePage from "./pages/profile/Profile";
 import NotFound from "./pages/not-found/NotFound";
+import { hydrateCart } from "./store/shippingCart/shoppingCartSlice";
+import { ShoppingCartState } from "./interfaces/shoppingCart";
 
 function App() {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     dispatch(fetchProducts());
+    const cartData = localStorage.getItem("cart");
+
+    if (cartData) {
+      const cartState: ShoppingCartState = JSON.parse(cartData);
+      dispatch(hydrateCart(cartState));
+    }
   }, [dispatch]);
 
   return (
