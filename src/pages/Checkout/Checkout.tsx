@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { createOrder } from "../../utils/userAPI";
@@ -10,14 +10,19 @@ import {
   ShoppingCartProductWithoutImage,
   ShoppingCartState,
 } from "../../interfaces/shoppingCart";
-import { removeFromCart } from "../../store/shippingCart/shoppingCartSlice";
+import {
+  removeFromCart,
+  clearCart,
+} from "../../store/shippingCart/shoppingCartSlice";
 
 import "./Checkout.css";
+import { ToastContainer, toast } from "react-toastify";
 
 interface CheckoutProps {}
 
 const Checkout: React.FC<CheckoutProps> = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { userResponse, token } = useContext(AuthContext);
   const cart: ShoppingCartState = useAppSelector((state) => state.carts);
   const cartProducts:
@@ -58,9 +63,13 @@ const Checkout: React.FC<CheckoutProps> = () => {
           },
         }
       );
+      toast.success("Votre commande a été validée.");
       visit(response.data.url);
     } catch (error) {
       console.error(error);
+      toast.error(
+        "Nous n'avons pas pu traiter votre commande. Veuillez réessayer plus tard ou contacter le service client"
+      );
     }
   };
 
@@ -88,8 +97,17 @@ const Checkout: React.FC<CheckoutProps> = () => {
     try {
       const cartWithoutImages = getCartWithoutImages(cart);
       await createOrder(cartWithoutImages, token);
+      toast.success("Votre commande a été validée.");
+      localStorage.removeItem("cart");
+      dispatch(clearCart());
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       console.error(error);
+      toast.error(
+        "Nous n'avons pas pu traiter votre commande. Veuillez réessayer plus tard ou contacter le service client"
+      );
     }
   };
 
@@ -170,6 +188,18 @@ const Checkout: React.FC<CheckoutProps> = () => {
           </div>
         </div>
       )}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

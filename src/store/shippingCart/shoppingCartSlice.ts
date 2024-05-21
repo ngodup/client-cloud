@@ -4,11 +4,6 @@ import {
   ShoppingCartProduct,
 } from "../../interfaces/shoppingCart";
 
-// export interface CartState {
-//   products: ShoppingCartProduct[];
-//   total_price: number;
-// }
-
 const initialState: ShoppingCartState = {
   status: "pending",
   paymentMethod: "credit card",
@@ -74,6 +69,12 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
     },
 
+    clearCart: (state) => {
+      state.products = [];
+      state.total_price = 0;
+      localStorage.removeItem("cart");
+    },
+
     hydrateCart: (state, action: PayloadAction<ShoppingCartState>) => {
       state.products = action.payload.products;
       state.total_price = action.payload.total_price;
@@ -88,6 +89,7 @@ export const {
   addToCart,
   removeFromCart,
   updateCartItemQuantity,
+  clearCart,
   hydrateCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
