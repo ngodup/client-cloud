@@ -1,8 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { Product } from "../../../interfaces/product";
-import { useAppDispatch } from "../../../store";
-import { addToCart } from "../../../store/shippingCart/shoppingCartSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import {
+  addToCart,
+  updateCartItemQuantity,
+} from "../../../store/shippingCart/shoppingCartSlice";
 import { AiFillStar } from "react-icons/ai";
 import { formatPrice } from "../../../utils/general";
 
@@ -42,9 +45,41 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const dispatch = useAppDispatch();
 
+  const cartItems = useAppSelector((state) => state.carts.products);
+
+  const [quantity, setQuantity] = useState<number>(0);
+
+  useEffect(() => {
+    const item = cartItems.find((item) => item.id === product.id);
+    if (item) {
+      setQuantity(item.quantity);
+    } else {
+      setQuantity(0);
+    }
+  }, [product.id, cartItems]);
+
   const handleAddToCart = useCallback(() => {
-    dispatch(addToCart(product));
-  }, [dispatch, product]);
+    const item = cartItems.find((item) => item.id === product.id);
+    if (item) {
+      dispatch(
+        updateCartItemQuantity({
+          id: item.id,
+          quantity: item.quantity + 1,
+        })
+      );
+    } else {
+      dispatch(
+        addToCart({
+          id: product.id as number,
+          name: product.name,
+          imageName: product.imageName,
+          price: product.price,
+          quantity: 1,
+        })
+      );
+    }
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  }, [dispatch, product, cartItems.length]);
 
   return (
     <section className="card">

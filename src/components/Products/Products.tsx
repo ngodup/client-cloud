@@ -13,6 +13,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import {
   addToCart,
   removeFromCart,
+  updateCartItemQuantity,
 } from "../../store/shippingCart/shoppingCartSlice";
 import "./Products.css";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -32,10 +33,12 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
   const [productComments, setProductComments] = useState<Comment[]>([]);
 
   // code for Modal cart increment and Decrment Quantity
-  const cartItems = useAppSelector((state) => state.carts.items);
+  const cartItems = useAppSelector((state) => state.carts.products);
   const dispatch = useAppDispatch();
   const [selectedCommentToEdit, setSelectedCommentToEdit] =
     useState<Comment | null>(null);
+
+  const [cart, setCart] = useState(cartItems);
 
   const { isAuthenticated, userResponse } = useContext(AuthContext);
   const user = userResponse?.user;
@@ -77,32 +80,44 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
 
   const productQuantity = useMemo(() => {
     if (selectedProduct) {
-      const itemIndex = cartItems.findIndex(
-        (cartItem) => cartItem.product.id === selectedProduct.id
-      );
-      return itemIndex !== -1 ? cartItems[itemIndex].quantity : 0;
+      const item = cartItems.find((item) => item.id === selectedProduct.id);
+      return item ? item.quantity : 0;
     }
     return 0;
-  }, [cartItems, selectedProduct]);
+  }, [selectedProduct, cartItems]);
 
   const handleAddToCart = useCallback(
     (product: Product) => {
-      const productExists = cartItems.some(
-        (item) => item.product.id === product.id
-      );
-      if (!productExists) {
-        dispatch(addToCart(product));
+      const item = cartItems.find((item) => item.id === product.id);
+      if (item) {
+        dispatch(
+          updateCartItemQuantity({
+            id: item.id,
+            quantity: item.quantity + 1,
+          })
+        );
+      } else {
+        dispatch(
+          addToCart({
+            id: product.id as number,
+            name: product.name,
+            imageName: product.imageName,
+            price: product.price,
+            quantity: 1,
+          })
+        );
       }
     },
-    [cartItems, dispatch]
+    [dispatch, cartItems]
   );
-
   const handleRemoveFromCart = useCallback(
-    (product: Product) => {
-      dispatch(removeFromCart(product));
+    (id: number) => {
+      dispatch(removeFromCart(id));
+      setCart(cart.filter((item) => item.id !== id));
     },
-    [dispatch]
+    [dispatch, cart]
   );
+  // End of the code for Modal cart increment and Decrment Quantity
   // End of the code for Modal cart increment and Decrment Quantity
 
   //CODE TO FETCH comment on the product.
@@ -241,7 +256,7 @@ const Products: React.FC<ProductsProps> = ({ filteredProducts }) => {
                   }`}
                   onClick={
                     selectedProduct.active
-                      ? () => handleRemoveFromCart(selectedProduct)
+                      ? () => handleRemoveFromCart(selectedProduct.id as number)
                       : undefined
                   }
                 />

@@ -13,13 +13,14 @@ import { setQuery } from "../../../store/products/products-slice";
 import { getQuerySelector } from "../../../store/products/selectors";
 import "./Header.css";
 import "react-responsive-modal/styles.css";
+import { ShoppingCartProduct } from "../../../interfaces/shoppingCart";
 
 const Header = () => {
   const navigate = useNavigate();
   const { isAuthenticated, userResponse, handleLogout } =
     useContext(AuthContext);
   const dispatch = useDispatch();
-  const cartItems = useAppSelector((state) => state.carts.items);
+  const cartItems = useAppSelector((state) => state.carts.products);
   const query = useAppSelector(getQuerySelector);
 
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -27,7 +28,7 @@ const Header = () => {
   //Hide search in all page except home
   const currentPath = window.location.pathname;
 
-  const cartItemsCount = cartItems.reduce(
+  const cartItemsCount = (cartItems as ShoppingCartProduct[]).reduce(
     (total, item) => total + item.quantity,
     0
   );

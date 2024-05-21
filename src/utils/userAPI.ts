@@ -1,6 +1,7 @@
 import axios from "axios";
 import { UserProfile, UserResponse } from "../interfaces/user";
 import { Comment } from "../interfaces/comment";
+import { ShoppingCartState } from "../interfaces/shoppingCart";
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
@@ -114,6 +115,27 @@ export const deleteAComment = async (
   return response.data;
 };
 
+export const createOrder = async (
+  orderData: ShoppingCartState, // Use the correct type here
+  token: string
+): Promise<void> => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/orders",
+      orderData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+};
 //No need
 // export const logout = async () => {
 //   await api.get<{ token: string }>("/logout");

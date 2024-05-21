@@ -97,3 +97,7 @@
     padding: 10px;
     border-radius: 5px;
 }
+
+.btn-group button {
+  margin-left: 5px;
+}
