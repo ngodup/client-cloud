@@ -136,6 +136,22 @@ export const createOrder = async (
     throw error; // Re-throw the error to be handled by the caller
   }
 };
+
+export const getUserOrders = async (
+  token: string
+): Promise<ShoppingCartState[]> => {
+  try {
+    const response = await axios.get("http://127.0.0.1:8000/api/orders/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 //No need
 // export const logout = async () => {
 //   await api.get<{ token: string }>("/logout");

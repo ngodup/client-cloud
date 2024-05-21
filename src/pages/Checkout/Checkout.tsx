@@ -7,7 +7,6 @@ import { createOrder } from "../../utils/userAPI";
 import { formatPrice, visit } from "../../utils/general";
 import {
   ShoppingCartProduct,
-  ShoppingCartProductWithoutImage,
   ShoppingCartState,
 } from "../../interfaces/shoppingCart";
 import {
@@ -25,9 +24,7 @@ const Checkout: React.FC<CheckoutProps> = () => {
   const navigate = useNavigate();
   const { userResponse, token } = useContext(AuthContext);
   const cart: ShoppingCartState = useAppSelector((state) => state.carts);
-  const cartProducts:
-    | ShoppingCartProduct[]
-    | ShoppingCartProductWithoutImage[] = cart?.products;
+  const cartProducts: ShoppingCartProduct[] = cart?.products;
   const totalPrice: number = cart?.total_price;
 
   if (!userResponse || !token) {
@@ -73,30 +70,9 @@ const Checkout: React.FC<CheckoutProps> = () => {
     }
   };
 
-  const getCartWithoutImages = (cart: ShoppingCartState): ShoppingCartState => {
-    const productsWithoutImages: ShoppingCartProductWithoutImage[] =
-      cart.products.map((product) => {
-        if ("imageName" in product) {
-          // This is the type guard
-          const { imageName, ...productWithoutImage } = product;
-          return productWithoutImage;
-        } else {
-          return product; // TypeScript knows that product is of type ShoppingCartProductWithoutImage
-        }
-      });
-
-    return {
-      status: cart.status,
-      paymentMethod: cart.paymentMethod,
-      total_price: cart.total_price,
-      products: productsWithoutImages,
-    };
-  };
-
   const handleLivraisonCheckout = async () => {
     try {
-      const cartWithoutImages = getCartWithoutImages(cart);
-      await createOrder(cartWithoutImages, token);
+      await createOrder(cart, token);
       toast.success("Votre commande a été validée.");
       localStorage.removeItem("cart");
       dispatch(clearCart());

@@ -7,6 +7,7 @@ import {
   getUserComments,
   updateComment,
   editProfile,
+  getUserOrders,
 } from "../../utils/userAPI";
 import CommentCard from "../../components/Products/Comment/CommentCard";
 import CommentForm from "../../components/Products/Comment/CommentForm";
@@ -15,6 +16,8 @@ import { Comment } from "../../interfaces/comment";
 import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import { UserProfile } from "../../interfaces/user";
 import "./Profile.css";
+import { formatDate, formatPrice } from "../../utils/general";
+import { ShoppingCartState } from "../../interfaces/shoppingCart";
 
 const ProfilePage = () => {
   const { userResponse, isAuthenticated, updateUserResponse } =
@@ -26,12 +29,27 @@ const ProfilePage = () => {
 
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
 
+  const [orderHistory, setOrderHistory] = useState<ShoppingCartState[]>([]);
+
   const userToken = localStorage.getItem("token");
 
   useEffect(() => {
     if (!userResponse || !userResponse.user.userProfile) {
       return;
     }
+
+    const fetchUserOrders = async () => {
+      try {
+        if (userToken) {
+          const response = await getUserOrders(userToken);
+          setOrderHistory(response);
+        }
+      } catch (error) {
+        setError("Error fetching user comments");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     const fetchUserComments = async () => {
       setLoading(true);
@@ -49,6 +67,7 @@ const ProfilePage = () => {
       }
     };
 
+    fetchUserOrders();
     fetchUserComments();
   }, [userToken, userResponse]);
 
@@ -186,8 +205,60 @@ const ProfilePage = () => {
           </ul>
         </div>
       </div>
+      <div className="user-orders">
+        <h2>Historique des commandes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Produit</th>
+              <th>Prix</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderHistory.map((order: any) => (
+              <>
+                <tr style={{ backgroundColor: "#ecebeb", fontWeight: "bold" }}>
+                  <td>Order Date: {formatDate(order.createdAt)}</td>
+                  <td>
+                    Status : {order.status} Payment : {order.paymentMethod}
+                  </td>
+                  <td>Total: {formatPrice(order.totalPrice)}</td>
+                </tr>
+                {order.products.map((product: any) => (
+                  <tr key={product.id}>
+                    <td>
+                      <div className="product-info">
+                        {product.imageName && (
+                          <img
+                            className="product-image"
+                            src={`http://127.0.0.1:8000/images/products/${product.imageName}`}
+                            alt={product.name}
+                          />
+                        )}
+
+                        <span>{product.name}</span>
+                      </div>
+                    </td>
+                    <td>{formatPrice(product.price)}</td>
+                    <td>
+                      <button
+                        className="remove-button"
+                        onClick={() => console.log("delete")}
+                      >
+                        X
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       <div className="user-comments">
-        <h2>TOUS LES COMMENTAIRES</h2>
+        <h2>Historique des commentaires</h2>
         {loading && <p>Loading comments...</p>}
         {error && <p>{error}</p>}
         {!loading && !error && userComments.length > 0 && (
