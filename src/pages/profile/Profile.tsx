@@ -109,8 +109,12 @@ const ProfilePage = () => {
           comment.id === commentId ? { ...comment, content } : comment
         )
       );
+      toast.success("Mise à jour du profil réussie");
       setSelectedComment(null);
     } catch (error) {
+      toast.error(
+        "Une erreur s'est produite lors de la mise à jour de votre profil. Veuillez réessayer de saisir vos informations"
+      );
       if (error instanceof Error) {
         console.error("Error editing comment:", error.message);
       } else {

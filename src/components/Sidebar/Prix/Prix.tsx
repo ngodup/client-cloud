@@ -31,7 +31,7 @@ const Prix: React.FC<PrixPros> = ({ handleRadioChange }) => {
 
         <CustomRadioButton
           handleRadioChange={handleRadioChange}
-          value={6}
+          value={5}
           title="€6 - €10"
           name="prix"
         />

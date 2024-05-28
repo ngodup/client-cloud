@@ -79,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       );
     }
     setQuantity((prevQuantity) => prevQuantity + 1);
-  }, [dispatch, product, cartItems.length]);
+  }, [dispatch, product, cartItems]);
 
   return (
     <section className="card">

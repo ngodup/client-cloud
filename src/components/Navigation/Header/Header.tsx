@@ -12,7 +12,6 @@ import AuthContext from "../../../context/AuthContext";
 import { setQuery } from "../../../store/products/products-slice";
 import { getQuerySelector } from "../../../store/products/selectors";
 import "./Header.css";
-import "react-responsive-modal/styles.css";
 import { ShoppingCartProduct } from "../../../interfaces/shoppingCart";
 
 const Header = () => {
