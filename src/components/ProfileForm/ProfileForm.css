@@ -30,10 +30,22 @@
     margin-bottom: 20px;
   }
   
-  .field-container label {
-    display: block;
-    margin-bottom: 5px;
+  .profile-file-container {
+    margin-top: 10px;
+    float: right;
+  }
+
+  .profile-file-container label {
     font-weight: bold;
+    padding: 5px;
+    border-radius: 3px;
+    margin-top: 10px;
+    color: white !important;
+  }
+  .custom-file-icon {
+    margin-left: 5px;
+    font-weight: bolder;
+    font-size: 20px;
   }
   
   .field-container input,
@@ -67,7 +79,6 @@
   }
 
   .custom-file-label-file {
-    padding: auto;
     background-color: var(--primary-color);
     color: var(--ligh-color)
   }

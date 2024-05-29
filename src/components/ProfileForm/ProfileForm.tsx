@@ -215,10 +215,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                 />
               )}
             </div>
-            <div className="field-container">
+            <div className="profile-file-container">
               <label htmlFor="my-file-input" className="custom-file-label-file">
                 <span className="custom-file-text">Choisir un fichier</span>
-                <span className="custom-file-icon">➕</span>
+                <span className="custom-file-icon">+</span>
               </label>
               <input
                 type="file"
